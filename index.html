@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viridian - Sustainable Agriculture Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="pageTransition">
+        <div class="transition-loader"></div>
+    </div>
+
+    <!-- ==================== LOGIN PAGE ==================== -->
+    <div class="page login-page" id="loginPage">
+        <div class="login-container">
+            <!-- Left Side - Hero -->
+            <div class="login-hero">
+                <div class="login-hero-content">
+                    <h1 class="login-headline">Upscale with Viridian</h1>
+                    <div class="login-images">
+                        <div class="hero-img hero-img-1">
+                            <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=400&h=300&fit=crop" alt="Rice paddies">
+                        </div>
+                        <div class="hero-img hero-img-2">
+                            <img src="https://images.unsplash.com/photo-1605568427561-40dd23c2acea?w=500&h=400&fit=crop" alt="Drone spraying crops">
+                        </div>
+                        <div class="hero-img hero-img-3">
+                            <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&h=300&fit=crop" alt="Farmer with tablet">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Form -->
+            <div class="login-form-container">
+                <header class="login-header">
+                    <div class="logo-small">
+                        <img src="Viridian pics/logo2.png" class="logo-icon" alt="Viridian logo">
+                        <span>Viridian</span>
+                    </div>
+                    <a href="#" class="help-link" onclick="showPage('registerPage'); return false;">Need help?</a>
+                </header>
+
+                <div class="form-box login-form-box">
+                    <h2>Log In</h2>
+                    <form class="auth-form" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <input type="text" placeholder="Phone Number / Username / Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn-primary btn-login">LOG IN</button>
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </form>
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+                    <div class="social-login">
+                        <button class="btn-social btn-facebook">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            Facebook
+                        </button>
+                        <button class="btn-social btn-google">
+                            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                            Google
+                        </button>
+                    </div>
+                </div>
+
+                <p class="auth-switch">
+                    Don't have an account? 
+                    <a href="#" onclick="showPage('registerPage'); return false;">Register</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== REGISTER PAGE ==================== -->
+    <div class="page register-page" id="registerPage">
+        <div class="login-container">
+            <!-- Left Side - Hero -->
+            <div class="login-hero">
+                <div class="login-hero-content">
+                    <h1 class="login-headline">Upscale with Viridian</h1>
+                    <div class="login-images">
+                        <div class="hero-img hero-img-1">
+                            <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=400&h=300&fit=crop" alt="Rice paddies">
+                        </div>
+                        <div class="hero-img hero-img-2">
+                            <img src="https://images.unsplash.com/photo-1605568427561-40dd23c2acea?w=500&h=400&fit=crop" alt="Drone spraying crops">
+                        </div>
+                        <div class="hero-img hero-img-3">
+                            <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&h=300&fit=crop" alt="Farmer with tablet">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Form -->
+            <div class="login-form-container">
+                <header class="login-header">
+                    <div class="logo-small">
+                        <img src="Viridian pics/logo2.png" class="logo-icon" alt="Viridian logo">
+                        <span>Viridian</span>
+                    </div>
+                    <a href="#" class="help-link">Need help?</a>
+                </header>
+
+                <div class="form-box register-form-box">
+                    <h2>Register</h2>
+                    <form class="auth-form" onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <input type="text" placeholder="Phone Number / Username / Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Enter Password" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Confirm Password" required>
+                        </div>
+                        <button type="submit" class="btn-primary btn-login">REGISTER</button>
+                    </form>
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+                    <div class="social-login">
+                        <button class="btn-social btn-facebook">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            Facebook
+                        </button>
+                        <button class="btn-social btn-google">
+                            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                            Google
+                        </button>
+                    </div>
+                </div>
+
+                <p class="auth-switch">
+                    Already have an account? 
+                    <a href="#" onclick="showPage('loginPage'); return false;">Log In</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN CONTENT (Homepage, Cart, Account, Product) ==================== -->
+    <div class="main-wrapper hidden" id="mainWrapper">
+        
+        <!-- ==================== HEADER ==================== -->
+        <header class="header">
+            <div class="header-top">
+                <div class="header-left">
+                    <a href="#" class="logo" onclick="showPage('homePage'); return false;">
+                        <img src="Viridian pics/logo2.png" class="logo-icon" alt="Viridian logo">
+                        <span>Viridian</span>
+                    </a>
+                </div>
+                <nav class="main-nav">
+                    <a href="#" class="nav-link active" onclick="showPage('homePage'); return false;">Home</a>
+                    <a href="#" class="nav-link" onclick="showPage('homePage'); return false;">About Us</a>
+                    <a href="#" class="nav-link" onclick="showPage('homePage'); return false;">IoT Services</a>
+                    <a href="#" class="nav-link" onclick="showPage('homePage'); return false;">Contact Us</a>
+                </nav>
+                <div class="header-right">
+                    <div class="search-bar">
+                        <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        <input type="text" placeholder="Search for products...">
+                    </div>
+                    <div class="user-actions">
+                        <a href="#" class="action-link" onclick="showPage('cartPage'); return false;">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                            </svg>
+                            <span>Cart</span>
+                        </a>
+                        <a href="#" class="action-link" onclick="showPage('accountPage'); return false;">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <span>Account</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ==================== HOMEPAGE ==================== -->
+        <div class="page home-page" id="homePage">
+            
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Don't Miss Out on Amazing Deals</h1>
+                    <p>Discover sustainable agriculture products for your farm</p>
+                </div>
+                <div class="hero-overlay"></div>
+            </section>
+
+            <!-- Featured Categories -->
+            <section class="categories">
+                <div class="section-header">
+                    <h2>Featured Categories</h2>
+                    <div class="nav-arrows">
+                        <button class="arrow-btn prev">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+                        </button>
+                        <button class="arrow-btn next">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="categories-grid">
+                    <div class="category-card" onclick="showPage('productPage'); return false;">
+                        <div class="category-icon">
+                            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=100&h=100&fit=crop" alt="Fertilizers">
+                        </div>
+                        <span>Fertilizers</span>
+                    </div>
+                    <div class="category-card" onclick="showPage('productPage'); return false;">
+                        <div class="category-icon">
+                            <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=100&h=100&fit=crop" alt="Saplings">
+                        </div>
+                        <span>Saplings</span>
+                    </div>
+                    <div class="category-card" onclick="showPage('productPage'); return false;">
+                        <div class="category-icon">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=100&h=100&fit=crop" alt="Spray">
+                        </div>
+                        <span>Agricultural Spray</span>
+                    </div>
+                    <div class="category-card" onclick="showPage('productPage'); return false;">
+                        <div class="category-icon">
+                            <img src="https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=100&h=100&fit=crop" alt="Tools">
+                        </div>
+                        <span>Gardening Tools</span>
+                    </div>
+                    <div class="category-card" onclick="showPage('productPage'); return false;">
+                        <div class="category-icon">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=100&h=100&fit=crop" alt="Towers">
+                        </div>
+                        <span>Aeroponic Towers</span>
+                    </div>
+                    <div class="category-card" onclick="showPage('productPage'); return false;">
+                        <div class="category-icon">
+                            <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=100&h=100&fit=crop" alt="Seeds">
+                        </div>
+                        <span>Plant Seeds</span>
+                    </div>
+                    <div class="category-card" onclick="showPage('productPage'); return false;">
+                        <div class="category-icon">
+                            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=100&h=100&fit=crop" alt="Soil">
+                        </div>
+                        <span>Garden Soil</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Promotional Banners -->
+            <section class="promo-banners">
+                <div class="promo-card promo-1">
+                    <div class="promo-content">
+                        <h3>Organic Fertilizers just for you</h3>
+                        <button class="btn-shop">Shop Now <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
+                    </div>
+                    <div class="promo-image">
+                        <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=200&h=200&fit=crop" alt="Fertilizer">
+                    </div>
+                </div>
+                <div class="promo-card promo-2">
+                    <div class="promo-content">
+                        <h3>Handy Tools that are just right!</h3>
+                        <button class="btn-shop">Shop Now <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
+                    </div>
+                    <div class="promo-image">
+                        <img src="https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=200&h=200&fit=crop" alt="Tools">
+                    </div>
+                </div>
+                <div class="promo-card promo-3">
+                    <div class="promo-content">
+                        <h3>Saplings that fit the season</h3>
+                        <button class="btn-shop">Shop Now <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
+                    </div>
+                    <div class="promo-image">
+                        <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=200&h=200&fit=crop" alt="Saplings">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Popular Products -->
+            <section class="popular-products">
+                <div class="section-header">
+                    <h2>Popular Products</h2>
+                    <div class="product-filters">
+                        <button class="filter-btn active">All</button>
+                        <button class="filter-btn">Fertilizers</button>
+                        <button class="filter-btn">Crop Protection</button>
+                        <button class="filter-btn">Seeds</button>
+                        <button class="filter-btn">Soil Care</button>
+                        <button class="filter-btn">Tools</button>
+                        <button class="filter-btn">Irrigation</button>
+                    </div>
+                </div>
+                <div class="products-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card" onclick="showPage('productPage'); return false;">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=200&h=200&fit=crop" alt="Organic Fertilizer">
+                            <div class="product-actions">
+                                <div class="qty-selector">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                                <button class="btn-add">ADD</button>
+                            </div>
+</div>
+                        <div class="product-info">
+                            <h4>Organic Fertilizer</h4>
+                            <p class="product-weight">5kg bag</p>
+                            <p class="product-price">₱ 67.69</p>
+                        </div>
+                    </div>
+                    <!-- Product 2 -->
+                    <div class="product-card" onclick="showPage('productPage'); return false;">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=200&h=200&fit=crop" alt="Vegetable Seeds">
+                            <div class="product-actions">
+                                <div class="qty-selector">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                                <button class="btn-add">ADD</button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>Vegetable Seeds Pack</h4>
+                            <p class="product-weight">500g</p>
+                            <p class="product-price">₱ 45.00</p>
+                        </div>
+                    </div>
+                    <!-- Product 3 -->
+                    <div class="product-card" onclick="showPage('productPage'); return false;">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=200&h=200&fit=crop" alt="Garden Tools">
+                            <div class="product-actions">
+                                <div class="qty-selector">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                                <button class="btn-add">ADD</button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>Garden Tool Set</h4>
+                            <p class="product-weight">5 pieces</p>
+                            <p class="product-price">₱ 350.00</p>
+                        </div>
+                    </div>
+                    <!-- Product 4 -->
+                    <div class="product-card" onclick="showPage('productPage'); return false;">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=200&fit=crop" alt="Plant Spray">
+                            <div class="product-actions">
+                                <div class="qty-selector">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                                <button class="btn-add">ADD</button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>Plant Spray Bottle</h4>
+                            <p class="product-weight">1L</p>
+                            <p class="product-price">₱ 89.00</p>
+                        </div>
+                    </div>
+                    <!-- Product 5 -->
+                    <div class="product-card" onclick="showPage('productPage'); return false;">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=200&h=200&fit=crop" alt="Saplings">
+                            <div class="product-actions">
+                                <div class="qty-selector">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                                <button class="btn-add">ADD</button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>Tomato Saplings</h4>
+                            <p class="product-weight">Bundle of 10</p>
+                            <p class="product-price">₱ 120.00</p>
+                        </div>
+                    </div>
+                    <!-- Product 6 -->
+                    <div class="product-card" onclick="showPage('productPage'); return false;">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=200&h=200&fit=crop" alt="Soil Mix">
+                            <div class="product-actions">
+                                <div class="qty-selector">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                                <button class="btn-add">ADD</button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>Premium Soil Mix</h4>
+                            <p class="product-weight">10kg bag</p>
+                            <p class="product-price">₱ 180.00</p>
+                        </div>
+                    </div>
+                    <!-- Product 7 -->
+                    <div class="product-card" onclick="showPage('productPage'); return false;">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=200&h=200&fit=crop" alt="Herb Seeds">
+                            <div class="product-actions">
+                                <div class="qty-selector">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                                <button class="btn-add">ADD</button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>Herb Seeds Collection</h4>
+                            <p class="product-weight">6 varieties</p>
+                            <p class="product-price">₱ 75.00</p>
+                        </div>
+                    </div>
+                    <!-- Product 8 -->
+                    <div class="product-card" onclick="showPage('productPage'); return false;">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=200&h=200&fit=crop" alt="Pruning Shears">
+                            <div class="product-actions">
+                                <div class="qty-selector">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                                <button class="btn-add">ADD</button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>Pruning Shears</h4>
+                            <p class="product-weight">Professional</p>
+                            <p class="product-price">₱ 250.00</p>
+                        </div>
+                    </div>
+                    <!-- Product 9 -->
+                    <div class="product-card" onclick="showPage('productPage'); return false;">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=200&fit=crop" alt="Drip Irrigation">
+                            <div class="product-actions">
+                                <div class="qty-selector">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                                <button class="btn-add">ADD</button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>Drip Irrigation Kit</h4>
+                            <p class="product-weight">50m tubing</p>
+                            <p class="product-price">₱ 450.00</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== CART PAGE ==================== -->
+        <div class="page cart-page" id="cartPage">
+            <div class="cart-container">
+                <h1 class="page-title">Shopping Cart</h1>
+                
+                <div class="cart-content">
+                    <div class="cart-items">
+                        <!-- Shop 1 -->
+                        <div class="shop-group">
+                            <div class="shop-header">
+                                <label class="shop-checkbox">
+                                    <input type="checkbox" checked>
+                                    <span>Green Farm Supplies</span>
+                                </label>
+                                <a href="#" class="shop-voucher">Add Shop Voucher</a>
+                            </div>
+                            <div class="cart-item">
+                                <label class="item-checkbox">
+                                    <input type="checkbox" checked>
+                                </label>
+                                <div class="item-image">
+                                    <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=80&h=80&fit=crop" alt="Product">
+                                </div>
+                                <div class="item-details">
+                                    <h4>Organic Fertilizer Premium Grade</h4>
+                                    <p class="item-price">₱ 67.69</p>
+                                </div>
+                                <div class="item-qty">
+                                    <div class="qty-selector small">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty-value">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="item-total">
+                                    <p>₱ 67.69</p>
+                                </div>
+                                <div class="item-actions">
+                                    <a href="#">Delete</a>
+                                    <a href="#">Find Similar</a>
+                                </div>
+                            </div>
+                            <div class="cart-item">
+                                <label class="item-checkbox">
+                                    <input type="checkbox" checked>
+                                </label>
+                                <div class="item-image">
+                                    <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=80&h=80&fit=crop" alt="Product">
+                                </div>
+                                <div class="item-details">
+                                    <h4>Vegetable Seeds Variety Pack</h4>
+                                    <p class="item-price">₱ 45.00</p>
+                                </div>
+                                <div class="item-qty">
+                                    <div class="qty-selector small">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty-value">2</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="item-total">
+                                    <p>₱ 90.00</p>
+                                </div>
+                                <div class="item-actions">
+                                    <a href="#">Delete</a>
+                                    <a href="#">Find Similar</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shop 2 -->
+                        <div class="shop-group">
+                            <div class="shop-header">
+                                <label class="shop-checkbox">
+                                    <input type="checkbox">
+                                    <span>Agri Tech Store</span>
+                                </label>
+                                <a href="#" class="shop-voucher">Add Shop Voucher</a>
+                            </div>
+                            <div class="cart-item">
+                                <label class="item-checkbox">
+                                    <input type="checkbox">
+                                </label>
+                                <div class="item-image">
+                                    <img src="https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=80&h=80&fit=crop" alt="Product">
+                                </div>
+                                <div class="item-details">
+                                    <h4>Garden Tool Set Professional</h4>
+                                    <p class="item-price">₱ 350.00</p>
+                                </div>
+                                <div class="item-qty">
+                                    <div class="qty-selector small">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty-value">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="item-total">
+                                    <p>₱ 350.00</p>
+                                </div>
+                                <div class="item-actions">
+                                    <a href="#">Delete</a>
+                                    <a href="#">Find Similar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cart-summary">
+                        <div class="voucher-section">
+                            <h4>Platform Voucher</h4>
+                            <div class="voucher-input">
+                                <input type="text" placeholder="Select or Enter Code">
+                                <button>Apply</button>
+                            </div>
+                        </div>
+                        <div class="cart-actions-bar">
+                            <label class="select-all">
+                                <input type="checkbox" checked>
+                                <span>Select All</span>
+                            </label>
+                            <div class="action-buttons">
+                                <a href="#">Delete</a>
+                                <a href="#">Move to My Likes</a>
+                            </div>
+                        </div>
+                        <div class="checkout-section">
+                            <div class="total-info">
+                                <span>Total (2 items):</span>
+                                <span class="total-price">₱ 157.69</span>
+                            </div>
+                            <button class="btn-checkout" onclick="showPage('checkoutPage'); return false;">Check Out</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- You May Also Like -->
+                <section class="recommendations">
+                    <h2>YOU MAY ALSO LIKE</h2>
+                    <a href="#" class="see-all">See All ></a>
+                    <div class="recommendations-grid">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=200&fit=crop" alt="Product">
+                                <div class="product-actions">
+                                    <div class="qty-selector">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty-value">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="btn-add">ADD</button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h4>Plant Mister</h4>
+                                <p class="product-price">₱ 75.00</p>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=200&h=200&fit=crop" alt="Product">
+                                <div class="product-actions">
+                                    <div class="qty-selector">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty-value">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="btn-add">ADD</button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h4>Pepper Seedlings</h4>
+                                <p class="product-price">₱ 95.00</p>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=200&h=200&fit=crop" alt="Product">
+                                <div class="product-actions">
+                                    <div class="qty-selector">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty-value">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="btn-add">ADD</button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h4>Compost Blend</h4>
+                                <p class="product-price">₱ 55.00</p>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=200&h=200&fit=crop" alt="Product">
+                                <div class="product-actions">
+                                    <div class="qty-selector">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty-value">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="btn-add">ADD</button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h4>Lettuce Seeds</h4>
+                                <p class="product-price">₱ 35.00</p>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=200&h=200&fit=crop" alt="Product">
+                                <div class="product-actions">
+                                    <div class="qty-selector">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty-value">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="btn-add">ADD</button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h4>Hand Trowel</h4>
+                                <p class="product-price">₱ 125.00</p>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=200&fit=crop" alt="Product">
+                                <div class="product-actions">
+                                    <div class="qty-selector">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty-value">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="btn-add">ADD</button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h4>Watering Can</h4>
+                                <p class="product-price">₱ 199.00</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- ==================== CHECKOUT PAGE ==================== -->
+        <div class="page checkout-page" id="checkoutPage">
+            <div class="checkout-container">
+                <h1 class="page-title">Checkout</h1>
+
+                <div class="checkout-layout">
+                    <div class="checkout-form-panel">
+                        <section class="checkout-card">
+                            <div class="checkout-card-header">
+                                <h3>Delivery Address</h3>
+                                <span>Required</span>
+                            </div>
+
+                            <form class="address-form">
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Full Name</label>
+                                        <input type="text" placeholder="Enter full name">
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Phone Number</label>
+                                        <input type="tel" placeholder="Enter phone number">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Province</label>
+                                        <input type="text" placeholder="Province">
+                                    </div>
+                                    <div class="form-field">
+                                        <label>City / Municipality</label>
+                                        <input type="text" placeholder="City or municipality">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Barangay</label>
+                                        <input type="text" placeholder="Barangay">
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Postal Code</label>
+                                        <input type="text" placeholder="Postal code">
+                                    </div>
+                                </div>
+
+                                <div class="form-field full-width">
+                                    <label>House No. / Street / Landmark</label>
+                                    <textarea rows="4" placeholder="House number, street name, nearby landmark, etc."></textarea>
+                                </div>
+
+                                <div class="checkout-options">
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" checked>
+                                        <span>Set as default address</span>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox">
+                                        <span>Address note for rider</span>
+                                    </label>
+                                </div>
+                            </form>
+                        </section>
+
+                        <section class="checkout-card">
+                            <div class="checkout-card-header">
+                                <h3>Delivery Method</h3>
+                            </div>
+                            <div class="delivery-methods">
+                                <label class="delivery-option active">
+                                    <input type="radio" name="delivery" checked>
+                                    <div>
+                                        <strong>Standard Delivery</strong>
+                                        <span>2-4 business days</span>
+                                    </div>
+                                    <strong>₱ 45.00</strong>
+                                </label>
+                                <label class="delivery-option">
+                                    <input type="radio" name="delivery">
+                                    <div>
+                                        <strong>Express Delivery</strong>
+                                        <span>Same day or next day</span>
+                                    </div>
+                                    <strong>₱ 90.00</strong>
+                                </label>
+                            </div>
+                        </section>
+                    </div>
+
+                    <aside class="checkout-summary-panel">
+                        <div class="checkout-card summary-card">
+                            <div class="checkout-card-header">
+                                <h3>Order Summary</h3>
+                            </div>
+
+                            <div class="summary-items">
+                                <div class="summary-item">
+                                    <span>Organic Fertilizer Premium Grade</span>
+                                    <span>₱ 67.69</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Vegetable Seeds Variety Pack</span>
+                                    <span>₱ 90.00</span>
+                                </div>
+                            </div>
+
+                            <div class="summary-row">
+                                <span>Items Total</span>
+                                <span>₱ 157.69</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Shipping</span>
+                                <span>₱ 45.00</span>
+                            </div>
+                            <div class="summary-row total-row">
+                                <span>Total</span>
+                                <span>₱ 202.69</span>
+                            </div>
+
+                            <button class="btn-checkout place-order-btn">Place Order</button>
+                            <p class="checkout-note">You can review and update your address before placing the order.</p>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== ACCOUNT PAGE ==================== -->
+        <div class="page account-page" id="accountPage">
+            <div class="account-container">
+                <div class="account-layout">
+                    <!-- Sidebar -->
+                    <aside class="account-sidebar">
+                        <div class="profile-avatar">
+                            <svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="currentColor" stroke-width="1">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <h3 class="username">John Farmer</h3>
+                        <a href="#" class="edit-profile">Edit Profile</a>
+                    </aside>
+
+                    <!-- Main Content -->
+                    <div class="account-content">
+                        <div class="content-box">
+                            <div class="content-header">
+                                <h2>My Profile</h2>
+                                <p>Manage and protect your account</p>
+                            </div>
+
+                            <form class="profile-form">
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Username</label>
+                                        <input type="text" value="johnfarmer">
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Name</label>
+                                        <input type="text" value="John Farmer">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Email</label>
+                                        <div class="field-with-action">
+                                            <span>viridian@gmail.com</span>
+                                            <a href="#" class="action-link-text">Change</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Phone Number</label>
+                                        <a href="#" class="action-link-text">Add</a>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Gender</label>
+                                        <div class="radio-group">
+                                            <label class="radio-option">
+                                                <input type="radio" name="gender" value="male">
+                                                <span>Male</span>
+                                            </label>
+                                            <label class="radio-option">
+                                                <input type="radio" name="gender" value="female">
+                                                <span>Female</span>
+                                            </label>
+                                            <label class="radio-option">
+                                                <input type="radio" name="gender" value="other">
+                                                <span>Other</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Date of Birth</label>
+                                        <div class="date-inputs">
+                                            <input type="text" placeholder="DD" maxlength="2">
+                                            <input type="text" placeholder="MM" maxlength="2">
+                                            <input type="text" placeholder="YYYY" maxlength="4">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="profile-picture">
+                                <div class="avatar-preview">
+                                    <svg viewBox="0 0 24 24" width="100" height="100" fill="none" stroke="currentColor" stroke-width="1">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                </div>
+                                <button class="btn-select-image">Select Image</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== PRODUCT PAGE ==================== -->
+        <div class="page product-page" id="productPage">
+            <div class="product-container">
+                <div class="product-main">
+                    <!-- Product Images -->
+                    <div class="product-gallery">
+                        <div class="main-image">
+                            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=500&h=500&fit=crop" alt="Organic Fertilizer">
+                        </div>
+                        <div class="thumbnail-list">
+                            <div class="thumbnail active">
+                                <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=100&h=100&fit=crop" alt="Thumbnail 1">
+                            </div>
+                            <div class="thumbnail">
+                                <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=100&h=100&fit=crop" alt="Thumbnail 2">
+                            </div>
+                            <div class="thumbnail">
+                                <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=100&h=100&fit=crop" alt="Thumbnail 3">
+                            </div>
+                            <div class="thumbnail">
+                                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=100&h=100&fit=crop" alt="Thumbnail 4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Info -->
+                    <div class="product-details">
+                        <h1 class="product-title">Organic Fertilizer</h1>
+                        <div class="product-meta">
+                            <div class="rating-badge">
+                                <span class="rating-score">4.0</span>
+                                <div class="stars">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="#E0E0E0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                </div>
+                                <span class="rating-count">8 Ratings</span>
+                                <span class="sold-count">2K Sold</span>
+                            </div>
+                        </div>
+                        <div class="product-pricing">
+                            <span class="price">₱ 67.69</span>
+                            <span class="after-voucher">after voucher</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-add-to-cart">Add to Cart</button>
+                            <button class="btn-buy-now">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bundle Deals -->
+                <section class="bundle-deals">
+                    <div class="section-header">
+                        <h3>Bundle Deals</h3>
+                        <a href="#" class="see-all">See All ></a>
+                    </div>
+                    <div class="bundle-grid">
+                        <div class="bundle-card">
+                            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=150&h=150&fit=crop" alt="Bundle">
+                            <div class="bundle-info">
+                                <p class="bundle-price">₱ 120.00</p>
+                                <div class="qty-selector small">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                            </div>
+                            <button class="btn-add">ADD</button>
+                        </div>
+                        <div class="bundle-card">
+                            <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=150&h=150&fit=crop" alt="Bundle">
+                            <div class="bundle-info">
+                                <p class="bundle-price">₱ 95.00</p>
+                                <div class="qty-selector small">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                            </div>
+                            <button class="btn-add">ADD</button>
+                        </div>
+                        <div class="bundle-card">
+                            <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=150&h=150&fit=crop" alt="Bundle">
+                            <div class="bundle-info">
+                                <p class="bundle-price">₱ 85.00</p>
+                                <div class="qty-selector small">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                            </div>
+                            <button class="btn-add">ADD</button>
+                        </div>
+                        <div class="bundle-card">
+                            <img src="https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=150&h=150&fit=crop" alt="Bundle">
+                            <div class="bundle-info">
+                                <p class="bundle-price">₱ 150.00</p>
+                                <div class="qty-selector small">
+                                    <button class="qty-btn minus">-</button>
+                                    <span class="qty-value">1</span>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                            </div>
+                            <button class="btn-add">ADD</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Shop Info -->
+                <section class="shop-info-section">
+                    <div class="shop-profile">
+                        <div class="shop-avatar">
+                            <svg viewBox="0 0 24 24" width="50" height="50" fill="none" stroke="currentColor" stroke-width="1">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                        </div>
+                        <div class="shop-details">
+                            <h4>Shop Name</h4>
+                            <p class="shop-status">Active 2 Hours Ago</p>
+                            <div class="shop-buttons">
+                                <button class="btn-shop-action">View Shop</button>
+                                <button class="btn-shop-action">Chat Now</button>
+                            </div>
+                        </div>
+                        <div class="shop-stats">
+                            <div class="stat">
+                                <span class="stat-value">4.5</span>
+                                <span class="stat-label">Ratings</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">156</span>
+                                <span class="stat-label">Products</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">98%</span>
+                                <span class="stat-label">Response Rate</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">1 hour</span>
+                                <span class="stat-label">Response Time</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">2023</span>
+                                <span class="stat-label">Joined</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">2.5K</span>
+                                <span class="stat-label">Followers</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Product Specifications & Description -->
+                <section class="product-specs-section">
+                    <div class="specs-column">
+                        <div class="specs-box">
+                            <h4>Product Specifications</h4>
+                            <table class="specs-table">
+                                <tr>
+                                    <td class="spec-label">Category</td>
+                                    <td class="spec-value">Fertilizer > Gardening</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-label">Stock</td>
+                                    <td class="spec-value">In Stock</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-label">Ships From</td>
+                                    <td class="spec-value">Kabacan, Philippines</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="description-box">
+                            <h4>Product Description</h4>
+                            <p class="description-text">
+                                Our premium organic fertilizer is specially formulated for Philippine soil conditions. Made from 100% natural ingredients, it provides essential nutrients for healthier plants and better yields.
+                            </p>
+                            <p class="description-text">
+                                Perfect for vegetables, fruits, and ornamental plants. Safe for the environment and promotes sustainable farming practices. Apply every 2-3 weeks for optimal results.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="top-picks-column">
+                        <h4>Top Picks From Shop</h4>
+                        <div class="top-picks-list">
+                            <div class="top-pick-card">
+                                <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=150&h=150&fit=crop" alt="Product">
+                                <p class="top-pick-name">Vegetable Seeds</p>
+                                <p class="top-pick-price">₱ 45.00</p>
+                            </div>
+                            <div class="top-pick-card">
+                                <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=150&h=150&fit=crop" alt="Product">
+                                <p class="top-pick-name">Saplings Pack</p>
+                                <p class="top-pick-price">₱ 120.00</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Product Ratings -->
+                <section class="product-ratings">
+                    <h4>Product Ratings</h4>
+                    <div class="ratings-overview">
+                        <div class="overall-score">
+                            <span class="score-number">4.0</span>
+                            <span class="score-label">out of 5</span>
+                            <div class="stars">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="#E0E0E0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            </div>
+                        </div>
+                        <div class="rating-filters">
+                            <button class="filter-btn active">5 Star (5)</button>
+                            <button class="filter-btn">4 Star (2)</button>
+                            <button class="filter-btn">3 Star (1)</button>
+                            <button class="filter-btn">2 Star (0)</button>
+                            <button class="filter-btn">1 Star (0)</button>
+                            <button class="filter-btn">With Comments</button>
+                            <button class="filter-btn">With Media</button>
+                        </div>
+                    </div>
+                    <div class="review-list">
+                        <div class="review-item">
+                            <div class="reviewer-avatar">
+                                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div class="review-content">
+                                <p class="reviewer-name">Maria Santos</p>
+                                <div class="review-rating">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                </div>
+                                <p class="review-text">Great product! My plants have never looked healthier. Will definitely order again.</p>
+                                <p class="review-date">2 weeks ago</p>
+                            </div>
+                        </div>
+                        <div class="review-item">
+                            <div class="reviewer-avatar">
+                                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div class="review-content">
+                                <p class="reviewer-name">Juan Cruz</p>
+                                <div class="review-rating">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="#1B7D5F"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="#E0E0E0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                </div>
+                                <p class="review-text">Good quality fertilizer. Fast delivery and well packaged.</p>
+                                <p class="review-date">1 month ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- ==================== FOOTER ==================== -->
+        <footer class="footer" id="mainFooter">
+            <div class="footer-logo footer-logo-centered">
+                <img src="Viridian pics/logo2.png" class="logo-icon" alt="Viridian logo">
+                <span class="brand-name">Viridian</span>
+            </div>
+            <div class="footer-content">
+                <div class="footer-column footer-brand">
+                    <h4>Our Mission</h4>
+                    <p class="mission-text">Our mission is to create a sustainable marketplace for farming and agriculture products in the Philippines, connecting farmers with quality resources.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul class="contact-list">
+                        <li>support@viridian.com</li>
+                        <li>partner@viridian.com</li>
+                        <li class="company">Viridian is operated by BAKAL CO.</li>
+                        <li>Kabacan, Philippines</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Stay Connected</h4>
+                    <p class="newsletter-text">Get the latest updates on new products and upcoming sales.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button class="btn-send">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"/>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="src/app.js"></script>
+</body>
+</html>
+
