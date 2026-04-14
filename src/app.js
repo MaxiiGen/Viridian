@@ -7,6 +7,514 @@ let currentPage = 'loginPage';
 let isLoggedIn = false;
 const lastPageKey = 'viridianLastPage';
 const authStateKey = 'viridianIsLoggedIn';
+const cartStateKey = 'viridianCartState';
+const checkoutAddressKey = 'viridianCheckoutAddress';
+const checkoutDeliveryKey = 'viridianCheckoutDelivery';
+const productFilterKey = 'viridianProductFilter';
+const selectedProductKey = 'viridianSelectedProduct';
+
+const productCategoryLabels = {
+    all: 'All',
+    fertilizers: 'Fertilizers',
+    saplings: 'Saplings',
+    'crop-protection': 'Crop Protection',
+    seeds: 'Seeds',
+    'soil-care': 'Soil Care',
+    tools: 'Tools',
+    irrigation: 'Irrigation',
+};
+
+const featuredCategories = [
+    { key: 'fertilizers', label: 'Fertilizers', image: 'drive-download-20260412T065819Z-3-001/featured(fertilizers).png' },
+    { key: 'saplings', label: 'Saplings', image: 'drive-download-20260412T065819Z-3-001/featured(saplings).png' },
+    { key: 'crop-protection', label: 'Agricultural Spray', image: 'drive-download-20260412T065819Z-3-001/featured(agricultural spray).png' },
+    { key: 'tools', label: 'Gardening Tools', image: 'drive-download-20260412T065819Z-3-001/featured(gardening tools).png' },
+    { key: 'irrigation', label: 'Aeroponic Towers', image: 'drive-download-20260412T065819Z-3-001/featured(aeroponic towers).png' },
+    { key: 'seeds', label: 'Plant Seeds', image: 'drive-download-20260412T065819Z-3-001/featured(plant seeds).png' },
+    { key: 'soil-care', label: 'Garden Soil', image: 'drive-download-20260412T065819Z-3-001/featured(gardening soils).png' },
+];
+
+const featuredPromos = [
+    { title: 'Organic Fertilizers just for you', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=400&fit=crop', alt: 'Fertilizer' },
+    { title: 'Handy Tools that are just right!', image: 'https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=400&h=400&fit=crop', alt: 'Tools' },
+    { title: 'Saplings that fit the season', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=400&h=400&fit=crop', alt: 'Saplings' },
+];
+
+const productCatalog = [
+    { category: 'fertilizers', title: 'Organic Fertilizer', weight: '5kg bag', price: 67.69, image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=300&fit=crop', alt: 'Organic Fertilizer' },
+    { category: 'seeds', title: 'Vegetable Seeds Pack', weight: '500g', price: 45.00, image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=300&h=300&fit=crop', alt: 'Vegetable Seeds' },
+    { category: 'tools', title: 'Garden Tool Set', weight: '5 pieces', price: 350.00, image: 'https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=300&h=300&fit=crop', alt: 'Garden Tools' },
+    { category: 'crop-protection', title: 'Plant Spray Bottle', weight: '1L', price: 89.00, image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop', alt: 'Plant Spray' },
+    { category: 'saplings', title: 'Tomato Saplings', weight: 'Bundle of 10', price: 120.00, image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=300&h=300&fit=crop', alt: 'Saplings' },
+    { category: 'soil-care', title: 'Premium Soil Mix', weight: '10kg bag', price: 180.00, image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=300&fit=crop', alt: 'Soil Mix' },
+    { category: 'seeds', title: 'Herb Seeds Collection', weight: '6 varieties', price: 75.00, image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=300&h=300&fit=crop', alt: 'Herb Seeds' },
+    { category: 'tools', title: 'Pruning Shears', weight: 'Professional', price: 250.00, image: 'https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=300&h=300&fit=crop', alt: 'Pruning Shears' },
+    { category: 'irrigation', title: 'Drip Irrigation Kit', weight: '50m tubing', price: 450.00, image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop', alt: 'Drip Irrigation' },
+];
+
+function getCategoryLabel(categoryKey) {
+    return productCategoryLabels[categoryKey] || categoryKey;
+}
+
+function findProductByTitle(title) {
+    return productCatalog.find(product => product.title === title) || productCatalog[0] || null;
+}
+
+function findProductByCategory(categoryKey) {
+    return productCatalog.find(product => product.category === categoryKey) || productCatalog[0] || null;
+}
+
+function getActiveFilterButton() {
+    return document.querySelector('.product-filters .filter-btn.active');
+}
+
+function setActiveProductFilter(label) {
+    const filterGroup = document.querySelector('.product-filters');
+    if (!filterGroup) {
+        return;
+    }
+
+    const targetLabel = label.trim();
+    filterGroup.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim() === targetLabel);
+    });
+
+    localStorage.setItem(productFilterKey, targetLabel);
+    applyProductFilters();
+}
+
+function renderProductPage(product) {
+    if (!product) {
+        return;
+    }
+
+    localStorage.setItem(selectedProductKey, JSON.stringify(product));
+
+    const page = document.getElementById('productPage');
+    if (!page) {
+        return;
+    }
+
+    const mainImage = page.querySelector('.main-image img');
+    const title = page.querySelector('.product-title');
+    const price = page.querySelector('.product-pricing .price');
+    const addToCartButton = page.querySelector('.btn-add-to-cart');
+    const buyNowButton = page.querySelector('.btn-buy-now');
+    const thumbnails = page.querySelectorAll('.thumbnail img');
+
+    if (mainImage) {
+        mainImage.src = product.image;
+        mainImage.alt = product.title;
+    }
+    if (title) {
+        title.textContent = product.title;
+    }
+    if (price) {
+        price.textContent = formatPeso(product.price);
+    }
+    if (addToCartButton) {
+        addToCartButton.dataset.productTitle = product.title;
+    }
+    if (buyNowButton) {
+        buyNowButton.dataset.productTitle = product.title;
+    }
+
+    thumbnails.forEach((thumb, index) => {
+            const productIndex = Math.max(productCatalog.findIndex(item => item.title === product.title), 0);
+            const source = productCatalog[(productIndex + index) % productCatalog.length] || product;
+        thumb.src = source.image;
+        thumb.alt = source.title;
+    });
+}
+
+function parsePeso(value) {
+    const parsed = Number(String(value).replace(/[^0-9.]/g, ''));
+    return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatPeso(value) {
+    return `₱ ${value.toFixed(2)}`;
+}
+
+function getVisibleProductCards() {
+    return Array.from(document.querySelectorAll('#homePage .products-grid .product-card'));
+}
+
+function renderHomepageData() {
+    const categoriesGrid = document.getElementById('featuredCategoriesGrid');
+    const promoBanners = document.getElementById('featuredPromoBanners');
+    const productsGrid = document.getElementById('homeProductsGrid');
+
+    if (categoriesGrid) {
+        categoriesGrid.innerHTML = featuredCategories.map(category => `
+            <div class="category-card" data-category="${category.key}">
+                <div class="category-icon">
+                    <img src="${category.image}" alt="${category.label}">
+                </div>
+                <span>${category.label}</span>
+            </div>
+        `).join('');
+    }
+
+    if (promoBanners) {
+        promoBanners.innerHTML = featuredPromos.map((promo, index) => `
+            <div class="promo-card promo-${index + 1}">
+                <div class="promo-content">
+                    <h3>${promo.title}</h3>
+                    <button class="btn-shop">Shop Now <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+                <div class="promo-image">
+                    <img src="${promo.image}" alt="${promo.alt}">
+                </div>
+            </div>
+        `).join('');
+    }
+
+    if (productsGrid) {
+        productsGrid.innerHTML = productCatalog.map(product => `
+            <div class="product-card" data-category="${product.category}" data-product-title="${product.title}">
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.alt}">
+                    <div class="product-actions">
+                        <div class="qty-selector">
+                            <button class="qty-btn minus">-</button>
+                            <span class="qty-value">1</span>
+                            <button class="qty-btn plus">+</button>
+                        </div>
+                        <button class="btn-add">ADD</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h4>${product.title}</h4>
+                    <p class="product-weight">${product.weight}</p>
+                    <p class="product-price">${formatPeso(product.price)}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+function getCartRows() {
+    return Array.from(document.querySelectorAll('#cartPage .cart-item'));
+}
+
+function getCartItemData(row) {
+    const title = row.querySelector('.item-details h4')?.textContent.trim() || '';
+    const price = parsePeso(row.querySelector('.item-price')?.textContent || '0');
+    const qty = Number(row.querySelector('.qty-value')?.textContent || 1);
+    const checked = row.querySelector('.item-checkbox input')?.checked ?? true;
+    const image = row.querySelector('.item-image img')?.src || '';
+    return { title, price, qty, checked, image };
+}
+
+function getSavedCartState() {
+    try {
+        return JSON.parse(localStorage.getItem(cartStateKey) || '[]');
+    } catch {
+        return [];
+    }
+}
+
+function saveCartState() {
+    const state = getCartRows().map(getCartItemData);
+    localStorage.setItem(cartStateKey, JSON.stringify(state));
+}
+
+function loadCartState() {
+    return new Map(getSavedCartState().map(item => [item.title, item]));
+}
+
+function updateCartRowTotals() {
+    getCartRows().forEach(row => {
+        const price = parsePeso(row.querySelector('.item-price')?.textContent || '0');
+        const qty = Number(row.querySelector('.qty-value')?.textContent || 1);
+        const total = price * qty;
+        const totalElement = row.querySelector('.item-total p');
+        if (totalElement) {
+            totalElement.textContent = formatPeso(total);
+        }
+    });
+}
+
+function updateCartSummary() {
+    const selectedRows = getCartRows().filter(row => row.querySelector('.item-checkbox input')?.checked);
+    const total = selectedRows.reduce((sum, row) => {
+        const price = parsePeso(row.querySelector('.item-price')?.textContent || '0');
+        const qty = Number(row.querySelector('.qty-value')?.textContent || 1);
+        return sum + (price * qty);
+    }, 0);
+
+    const totalInfo = document.querySelector('#cartPage .total-info span:first-child');
+    const totalPrice = document.querySelector('#cartPage .total-price');
+
+    if (totalInfo) {
+        totalInfo.textContent = `Total (${selectedRows.length} items):`;
+    }
+    if (totalPrice) {
+        totalPrice.textContent = formatPeso(total);
+    }
+
+    updateCheckoutSummary();
+}
+
+function restoreCartState() {
+    const savedState = loadCartState();
+
+    getCartRows().forEach(row => {
+        const title = row.querySelector('.item-details h4')?.textContent.trim() || '';
+        const savedItem = savedState.get(title);
+        if (!savedItem) {
+            return;
+        }
+
+        const qtyValue = row.querySelector('.qty-value');
+        const checkbox = row.querySelector('.item-checkbox input');
+        if (qtyValue && Number.isFinite(savedItem.qty)) {
+            qtyValue.textContent = String(savedItem.qty);
+        }
+        if (checkbox) {
+            checkbox.checked = Boolean(savedItem.checked);
+        }
+    });
+
+    const selectAll = document.querySelector('#cartPage .select-all input');
+    if (selectAll && getCartRows().length > 0) {
+        selectAll.checked = getCartRows().every(row => row.querySelector('.item-checkbox input')?.checked);
+    }
+
+    updateCartRowTotals();
+    updateCartSummary();
+}
+
+function saveCheckoutAddress() {
+    const form = document.querySelector('#checkoutPage .address-form');
+    if (!form) {
+        return;
+    }
+
+    const delivery = form.querySelector('input[name="delivery"]:checked')?.value || 'standard';
+    const address = {
+        fullName: form.querySelector('[name="fullName"]')?.value || '',
+        phoneNumber: form.querySelector('[name="phoneNumber"]')?.value || '',
+        province: form.querySelector('[name="province"]')?.value || '',
+        city: form.querySelector('[name="city"]')?.value || '',
+        barangay: form.querySelector('[name="barangay"]')?.value || '',
+        postalCode: form.querySelector('[name="postalCode"]')?.value || '',
+        street: form.querySelector('[name="street"]')?.value || '',
+        defaultAddress: form.querySelector('[name="defaultAddress"]')?.checked || false,
+        riderNote: form.querySelector('[name="riderNote"]')?.checked || false,
+        delivery,
+    };
+
+    localStorage.setItem(checkoutAddressKey, JSON.stringify(address));
+    localStorage.setItem(checkoutDeliveryKey, delivery);
+}
+
+function restoreCheckoutAddress() {
+    const form = document.querySelector('#checkoutPage .address-form');
+    if (!form) {
+        return;
+    }
+
+    let savedAddress = null;
+    try {
+        savedAddress = JSON.parse(localStorage.getItem(checkoutAddressKey) || 'null');
+    } catch {
+        savedAddress = null;
+    }
+
+    if (!savedAddress) {
+        return;
+    }
+
+    const setValue = (name, value) => {
+        const field = form.querySelector(`[name="${name}"]`);
+        if (field && typeof value === 'string') {
+            field.value = value;
+        }
+    };
+
+    setValue('fullName', savedAddress.fullName || '');
+    setValue('phoneNumber', savedAddress.phoneNumber || '');
+    setValue('province', savedAddress.province || '');
+    setValue('city', savedAddress.city || '');
+    setValue('barangay', savedAddress.barangay || '');
+    setValue('postalCode', savedAddress.postalCode || '');
+    setValue('street', savedAddress.street || '');
+
+    const defaultAddress = form.querySelector('[name="defaultAddress"]');
+    const riderNote = form.querySelector('[name="riderNote"]');
+    if (defaultAddress) {
+        defaultAddress.checked = Boolean(savedAddress.defaultAddress);
+    }
+    if (riderNote) {
+        riderNote.checked = Boolean(savedAddress.riderNote);
+    }
+
+    const deliveryValue = savedAddress.delivery || localStorage.getItem(checkoutDeliveryKey) || 'standard';
+    const deliveryInput = form.querySelector(`input[name="delivery"][value="${deliveryValue}"]`);
+    if (deliveryInput) {
+        deliveryInput.checked = true;
+    }
+}
+
+function getSelectedDeliveryCost() {
+    const selected = document.querySelector('#checkoutPage input[name="delivery"]:checked');
+    return selected?.value === 'express' ? 90 : 45;
+}
+
+function updateCheckoutSummary() {
+    const summaryItems = document.querySelector('#checkoutPage .summary-items');
+    const summaryRows = document.querySelectorAll('#checkoutPage .summary-row');
+    const summaryRowItems = summaryRows[0]?.querySelector('span:last-child');
+    const summaryRowShipping = summaryRows[1]?.querySelector('span:last-child');
+    const summaryRowTotal = summaryRows[2]?.querySelector('span:last-child');
+    if (!summaryItems || !summaryRowItems || !summaryRowShipping || !summaryRowTotal) {
+        return;
+    }
+
+    const selectedRows = getCartRows().filter(row => row.querySelector('.item-checkbox input')?.checked);
+    const lineItems = selectedRows.map(row => {
+        const title = row.querySelector('.item-details h4')?.textContent.trim() || '';
+        const price = parsePeso(row.querySelector('.item-price')?.textContent || '0');
+        const qty = Number(row.querySelector('.qty-value')?.textContent || 1);
+        return { title, total: price * qty };
+    });
+
+    summaryItems.innerHTML = lineItems.length
+        ? lineItems.map(item => `<div class="summary-item"><span>${item.title}</span><span>${formatPeso(item.total)}</span></div>`).join('')
+        : '<div class="summary-item"><span>No items selected</span><span>₱ 0.00</span></div>';
+
+    const itemTotal = lineItems.reduce((sum, item) => sum + item.total, 0);
+    const shipping = getSelectedDeliveryCost();
+    summaryRowItems.textContent = formatPeso(itemTotal);
+    summaryRowShipping.textContent = formatPeso(shipping);
+    summaryRowTotal.textContent = formatPeso(itemTotal + shipping);
+}
+
+function findCartRowByTitle(title) {
+    return getCartRows().find(row => row.querySelector('.item-details h4')?.textContent.trim() === title);
+}
+
+function buildCartItemMarkup(item) {
+    const image = item.image || 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=80&h=80&fit=crop';
+    const total = (item.price || 0) * (item.qty || 1);
+
+    return `
+        <div class="cart-item">
+            <label class="item-checkbox">
+                <input type="checkbox" ${item.checked === false ? '' : 'checked'}>
+            </label>
+            <div class="item-image">
+                <img src="${image}" alt="${item.title}">
+            </div>
+            <div class="item-details">
+                <h4>${item.title}</h4>
+                <p class="item-price">${formatPeso(item.price || 0)}</p>
+            </div>
+            <div class="item-qty">
+                <div class="qty-selector small">
+                    <button class="qty-btn minus">-</button>
+                    <span class="qty-value">${item.qty || 1}</span>
+                    <button class="qty-btn plus">+</button>
+                </div>
+            </div>
+            <div class="item-total">
+                <p>${formatPeso(total)}</p>
+            </div>
+            <div class="item-actions">
+                <a href="#">Delete</a>
+                <a href="#">Find Similar</a>
+            </div>
+        </div>
+    `;
+}
+
+function appendCartItem(item) {
+    const cartItems = document.querySelector('#cartPage .cart-items');
+    const firstShopGroup = cartItems?.querySelector('.shop-group');
+    if (!cartItems || !firstShopGroup) {
+        return null;
+    }
+
+    firstShopGroup.insertAdjacentHTML('beforeend', buildCartItemMarkup(item));
+    return findCartRowByTitle(item.title);
+}
+
+function incrementCartItem(title, amount = 1) {
+    const row = findCartRowByTitle(title);
+    if (!row) {
+        const product = findProductByTitle(title);
+        if (!product) {
+            return false;
+        }
+
+        const createdRow = appendCartItem({
+            title: product.title,
+            price: product.price,
+            qty: amount,
+            checked: true,
+            image: product.image,
+        });
+
+        if (!createdRow) {
+            return false;
+        }
+
+        updateCartRowTotals();
+        updateCartSummary();
+        saveCartState();
+        return true;
+    }
+
+    const qtyValue = row.querySelector('.qty-value');
+    if (!qtyValue) {
+        return false;
+    }
+
+    const currentQty = Number(qtyValue.textContent || 1);
+    qtyValue.textContent = String(currentQty + amount);
+    updateCartRowTotals();
+    updateCartSummary();
+    saveCartState();
+    return true;
+}
+
+function applyProductFilters() {
+    const searchInput = document.querySelector('.search-bar input');
+    const filterButton = getActiveFilterButton();
+    const query = (searchInput?.value || '').trim().toLowerCase();
+    const activeFilter = filterButton?.textContent.trim().toLowerCase() || 'all';
+
+    getVisibleProductCards().forEach(card => {
+        const title = card.querySelector('.product-info h4')?.textContent.toLowerCase() || '';
+        const weight = card.querySelector('.product-weight')?.textContent.toLowerCase() || '';
+        const category = (card.dataset.category || '').toLowerCase();
+
+        const matchesQuery = !query || title.includes(query) || weight.includes(query) || category.includes(query);
+        const matchesFilter = activeFilter === 'all'
+            || activeFilter.includes('fertilizer') && category === 'fertilizers'
+            || activeFilter.includes('seed') && category === 'seeds'
+            || activeFilter.includes('tool') && category === 'tools'
+            || activeFilter.includes('crop') && category === 'crop-protection'
+            || activeFilter.includes('soil') && category === 'soil-care'
+            || activeFilter.includes('irrigation') && category === 'irrigation'
+            || activeFilter.includes('sapling') && category === 'saplings';
+
+        card.style.display = matchesQuery && matchesFilter ? '' : 'none';
+    });
+}
+
+function syncCategoryButtons() {
+    const prev = document.querySelector('.arrow-btn.prev');
+    const next = document.querySelector('.arrow-btn.next');
+    const categoriesGrid = document.getElementById('featuredCategoriesGrid');
+    if (categoriesGrid && prev && next && !categoriesGrid.dataset.carouselBound) {
+        prev.addEventListener('click', () => categoriesGrid.scrollBy({ left: -220, behavior: 'smooth' }));
+        next.addEventListener('click', () => categoriesGrid.scrollBy({ left: 220, behavior: 'smooth' }));
+        categoriesGrid.dataset.carouselBound = 'true';
+    }
+}
 
 // ==================== PAGE TRANSITIONS ====================
 function showPage(pageId, options = {}) {
@@ -88,6 +596,11 @@ function showPage(pageId, options = {}) {
         setTimeout(() => {
             transition.classList.remove('active');
         }, 300);
+
+        if (pageId === 'checkoutPage') {
+            restoreCheckoutAddress();
+            updateCheckoutSummary();
+        }
     };
 
     if (immediate) {
@@ -140,6 +653,39 @@ function handleRegister(event) {
     }
 }
 
+function handlePlaceOrder(event) {
+    event.preventDefault();
+    saveCheckoutAddress();
+    saveCartState();
+
+    const checkoutForm = document.querySelector('#checkoutPage .address-form');
+    const fullName = checkoutForm?.querySelector('[name="fullName"]')?.value.trim();
+    const phoneNumber = checkoutForm?.querySelector('[name="phoneNumber"]')?.value.trim();
+    const street = checkoutForm?.querySelector('[name="street"]')?.value.trim();
+
+    if (!fullName || !phoneNumber || !street) {
+        alert('Please fill out the delivery address before placing the order.');
+        return;
+    }
+
+    const selectedItems = getCartRows().filter(row => row.querySelector('.item-checkbox input')?.checked);
+    if (!selectedItems.length) {
+        alert('Select at least one cart item before placing the order.');
+        return;
+    }
+
+    const order = {
+        address: JSON.parse(localStorage.getItem(checkoutAddressKey) || 'null'),
+        items: selectedItems.map(getCartItemData),
+        total: document.querySelector('#checkoutPage .total-row span:last-child')?.textContent || '₱ 0.00',
+        createdAt: new Date().toISOString(),
+    };
+
+    localStorage.setItem('viridianLatestOrder', JSON.stringify(order));
+    alert('Order placed. Your address and order summary were saved.');
+    showPage('homePage');
+}
+
 // ==================== QUANTITY SELECTOR ====================
 document.addEventListener('click', function(e) {
     // Handle quantity buttons
@@ -160,12 +706,21 @@ document.addEventListener('click', function(e) {
         setTimeout(() => {
             valueEl.style.transform = 'scale(1)';
         }, 150);
+
+        if (e.target.closest('#cartPage')) {
+            updateCartRowTotals();
+            updateCartSummary();
+            saveCartState();
+        }
     }
 
     // Handle ADD to cart button
     if (e.target.classList.contains('btn-add') && e.target.closest('.product-card')) {
         const btn = e.target;
-        btn.textContent = 'Added!';
+        const card = btn.closest('.product-card');
+        const title = card?.querySelector('.product-info h4')?.textContent.trim() || '';
+        const added = incrementCartItem(title, 1);
+        btn.textContent = added ? 'Added!' : 'Saved';
         btn.style.background = '#2E7D32';
         
         // Create floating animation
@@ -182,6 +737,28 @@ document.addEventListener('click', function(e) {
         }, 200);
     }
 
+    if (e.target.closest('.category-card')) {
+        const categoryCard = e.target.closest('.category-card');
+        const categoryKey = categoryCard.dataset.category || 'all';
+        const filterLabel = getCategoryLabel(categoryKey);
+        const matchingProduct = findProductByCategory(categoryKey);
+
+        setActiveProductFilter(filterLabel);
+        renderProductPage(matchingProduct);
+        showPage('productPage');
+        return;
+    }
+
+    if (e.target.closest('.product-card') && e.target.closest('#homeProductsGrid') && !e.target.closest('.btn-add') && !e.target.closest('.qty-btn')) {
+        const productCard = e.target.closest('.product-card');
+        const productTitle = productCard.dataset.productTitle || '';
+        const product = findProductByTitle(productTitle);
+
+        renderProductPage(product);
+        showPage('productPage');
+        return;
+    }
+
     // Handle filter buttons
     if (e.target.classList.contains('filter-btn')) {
         const filterGroup = e.target.closest('.product-filters') || e.target.closest('.rating-filters');
@@ -190,6 +767,11 @@ document.addEventListener('click', function(e) {
                 btn.classList.remove('active');
             });
             e.target.classList.add('active');
+
+            if (filterGroup.classList.contains('product-filters')) {
+                localStorage.setItem(productFilterKey, e.target.textContent.trim());
+                applyProductFilters();
+            }
         }
     }
 
@@ -216,7 +798,9 @@ document.addEventListener('click', function(e) {
     // Handle Add to Cart on product page
     if (e.target.classList.contains('btn-add-to-cart')) {
         const btn = e.target;
-        btn.textContent = 'Added to Cart!';
+        const productTitle = btn.dataset.productTitle || document.querySelector('#productPage .product-title')?.textContent.trim() || '';
+        const added = incrementCartItem(productTitle, 1);
+        btn.textContent = added ? 'Added to Cart!' : 'Saved';
         btn.style.background = '#2E7D32';
         
         setTimeout(() => {
@@ -227,7 +811,14 @@ document.addEventListener('click', function(e) {
 
     // Handle Buy Now on product page
     if (e.target.classList.contains('btn-buy-now')) {
+        const productTitle = e.target.dataset.productTitle || document.querySelector('#productPage .product-title')?.textContent.trim() || '';
+        incrementCartItem(productTitle, 1);
         showPage('cartPage');
+    }
+
+    // Handle Place Order
+    if (e.target.classList.contains('place-order-btn')) {
+        handlePlaceOrder(e);
     }
 });
 
@@ -323,6 +914,24 @@ document.addEventListener('change', (e) => {
             const allChecked = Array.from(itemCheckboxes).every(cb => cb.checked);
             shopCheckbox.checked = allChecked;
         }
+
+        if (checkbox.closest('#cartPage')) {
+            updateCartSummary();
+            saveCartState();
+        }
+
+        if (checkbox.name === 'defaultAddress' || checkbox.name === 'riderNote') {
+            saveCheckoutAddress();
+        }
+    }
+
+    if (e.target.name === 'delivery') {
+        const deliveryOptions = document.querySelectorAll('#checkoutPage .delivery-option');
+        deliveryOptions.forEach(option => {
+            option.classList.toggle('active', option.querySelector('input[name="delivery"]') === e.target);
+        });
+        saveCheckoutAddress();
+        updateCheckoutSummary();
     }
 });
 
@@ -411,6 +1020,48 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.product-image img').forEach(img => {
         img.style.transition = 'transform 0.3s ease';
     });
+
+    renderHomepageData();
+    syncCategoryButtons();
+
+    // Restore cart and checkout state
+    restoreCartState();
+    restoreCheckoutAddress();
+
+    // Wire search and checkout persistence
+    const searchInput = document.querySelector('.search-bar input');
+    if (searchInput) {
+        searchInput.addEventListener('input', applyProductFilters);
+        searchInput.value = searchInput.value || '';
+    }
+
+    const checkoutForm = document.querySelector('#checkoutPage .address-form');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('input', saveCheckoutAddress);
+        checkoutForm.addEventListener('change', () => {
+            saveCheckoutAddress();
+            updateCheckoutSummary();
+        });
+    }
+
+    const savedFilter = localStorage.getItem(productFilterKey);
+    if (savedFilter) {
+        const button = Array.from(document.querySelectorAll('.product-filters .filter-btn')).find(btn => btn.textContent.trim() === savedFilter);
+        if (button) {
+            button.click();
+        }
+    }
+
+    const savedProduct = localStorage.getItem(selectedProductKey);
+    if (savedProduct) {
+        try {
+            renderProductPage(JSON.parse(savedProduct));
+        } catch {
+            renderProductPage(productCatalog[0]);
+        }
+    } else {
+        renderProductPage(productCatalog[0]);
+    }
 });
 
 // ==================== KEYBOARD NAVIGATION ====================
