@@ -17,7 +17,7 @@ const productCategoryLabels = {
     all: 'All',
     fertilizers: 'Fertilizers',
     saplings: 'Saplings',
-    'crop-protection': 'Crop Protection',
+    'crop-protection': 'Agricultural Spray',
     seeds: 'Seeds',
     'soil-care': 'Soil Care',
     tools: 'Tools',
@@ -41,15 +41,15 @@ const featuredPromos = [
 ];
 
 const productCatalog = [
-    { category: 'fertilizers', title: 'Organic Fertilizer', weight: '5kg bag', price: 67.69, image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=300&fit=crop', alt: 'Organic Fertilizer' },
-    { category: 'seeds', title: 'Vegetable Seeds Pack', weight: '500g', price: 45.00, image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=300&h=300&fit=crop', alt: 'Vegetable Seeds' },
-    { category: 'tools', title: 'Garden Tool Set', weight: '5 pieces', price: 350.00, image: 'https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=300&h=300&fit=crop', alt: 'Garden Tools' },
-    { category: 'crop-protection', title: 'Plant Spray Bottle', weight: '1L', price: 89.00, image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop', alt: 'Plant Spray' },
-    { category: 'saplings', title: 'Tomato Saplings', weight: 'Bundle of 10', price: 120.00, image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=300&h=300&fit=crop', alt: 'Saplings' },
-    { category: 'soil-care', title: 'Premium Soil Mix', weight: '10kg bag', price: 180.00, image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=300&fit=crop', alt: 'Soil Mix' },
-    { category: 'seeds', title: 'Herb Seeds Collection', weight: '6 varieties', price: 75.00, image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=300&h=300&fit=crop', alt: 'Herb Seeds' },
-    { category: 'tools', title: 'Pruning Shears', weight: 'Professional', price: 250.00, image: 'https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=300&h=300&fit=crop', alt: 'Pruning Shears' },
-    { category: 'irrigation', title: 'Drip Irrigation Kit', weight: '50m tubing', price: 450.00, image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop', alt: 'Drip Irrigation' },
+    { category: 'fertilizers', title: 'Organic Fertilizer', weight: '5kg bag', price: 67.69, image: 'drive-download-20260412T065819Z-3-001/organic fertilizer packaging design.jpg', alt: 'Organic Fertilizer' },
+    { category: 'seeds', title: 'Vegetable Seeds Pack', weight: '500g', price: 45.00, image: 'drive-download-20260412T065819Z-3-001/featured(plant seeds).png', alt: 'Vegetable Seeds' },
+    { category: 'tools', title: 'Garden Tool Set', weight: '5 pieces', price: 350.00, image: 'drive-download-20260412T065819Z-3-001/featured(gardening tools).png', alt: 'Garden Tools' },
+    { category: 'crop-protection', title: 'Plant Spray Bottle', weight: '1L', price: 89.00, image: 'drive-download-20260412T065819Z-3-001/featured(agricultural spray).png', alt: 'Plant Spray' },
+    { category: 'saplings', title: 'Tomato Saplings', weight: 'Bundle of 10', price: 120.00, image: 'drive-download-20260412T065819Z-3-001/featured(saplings).png', alt: 'Saplings' },
+    { category: 'soil-care', title: 'Premium Soil Mix', weight: '10kg bag', price: 180.00, image: 'drive-download-20260412T065819Z-3-001/featured(gardening soils).png', alt: 'Soil Mix' },
+    { category: 'seeds', title: 'Herb Seeds Collection', weight: '6 varieties', price: 75.00, image: 'drive-download-20260412T065819Z-3-001/featured(plant seeds).png', alt: 'Herb Seeds' },
+    { category: 'tools', title: 'Pruning Shears', weight: 'Professional', price: 250.00, image: 'drive-download-20260412T065819Z-3-001/featured(gardening tools).png', alt: 'Pruning Shears' },
+    { category: 'irrigation', title: 'Drip Irrigation Kit', weight: '50m tubing', price: 450.00, image: 'drive-download-20260412T065819Z-3-001/featured(aeroponic towers).png', alt: 'Drip Irrigation' },
 ];
 
 function getCategoryLabel(categoryKey) {
@@ -57,29 +57,41 @@ function getCategoryLabel(categoryKey) {
 }
 
 function findProductByTitle(title) {
-    return productCatalog.find(product => product.title === title) || productCatalog[0] || null;
+    return productCatalog.find(product => product.title === title) || null;
 }
 
 function findProductByCategory(categoryKey) {
-    return productCatalog.find(product => product.category === categoryKey) || productCatalog[0] || null;
+    return productCatalog.find(product => product.category === categoryKey) || null;
+}
+
+function findProductByIndex(productIndex) {
+    return productCatalog[productIndex] || null;
+}
+
+function getCategoryKeyFromLabel(label) {
+    const normalizedLabel = (label || '').trim().toLowerCase();
+    const entry = Object.entries(productCategoryLabels).find(([, value]) => value.toLowerCase() === normalizedLabel);
+    return entry?.[0] || 'all';
 }
 
 function getActiveFilterButton() {
     return document.querySelector('.product-filters .filter-btn.active');
 }
 
-function setActiveProductFilter(label) {
+function setActiveProductFilter(categoryKey) {
     const filterGroup = document.querySelector('.product-filters');
     if (!filterGroup) {
         return;
     }
 
-    const targetLabel = label.trim();
+    const targetCategoryKey = (categoryKey || 'all').trim().toLowerCase();
+    const targetLabel = getCategoryLabel(targetCategoryKey);
     filterGroup.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent.trim() === targetLabel);
+        const buttonCategoryKey = (btn.dataset.category || getCategoryKeyFromLabel(btn.textContent)).toLowerCase();
+        btn.classList.toggle('active', buttonCategoryKey === targetCategoryKey);
     });
 
-    localStorage.setItem(productFilterKey, targetLabel);
+    localStorage.setItem(productFilterKey, targetCategoryKey);
     applyProductFilters();
 }
 
@@ -97,6 +109,7 @@ function renderProductPage(product) {
 
     const mainImage = page.querySelector('.main-image img');
     const title = page.querySelector('.product-title');
+    const category = page.querySelector('.product-category');
     const price = page.querySelector('.product-pricing .price');
     const addToCartButton = page.querySelector('.btn-add-to-cart');
     const buyNowButton = page.querySelector('.btn-buy-now');
@@ -108,6 +121,9 @@ function renderProductPage(product) {
     }
     if (title) {
         title.textContent = product.title;
+    }
+    if (category) {
+        category.textContent = `Category: ${getCategoryLabel(product.category)}`;
     }
     if (price) {
         price.textContent = formatPeso(product.price);
@@ -171,8 +187,8 @@ function renderHomepageData() {
     }
 
     if (productsGrid) {
-        productsGrid.innerHTML = productCatalog.map(product => `
-            <div class="product-card" data-category="${product.category}" data-product-title="${product.title}">
+        productsGrid.innerHTML = productCatalog.map((product, index) => `
+            <div class="product-card" data-category="${product.category}" data-product-title="${product.title}" data-product-index="${index}">
                 <div class="product-image">
                     <img src="${product.image}" alt="${product.alt}">
                     <div class="product-actions">
@@ -484,7 +500,7 @@ function applyProductFilters() {
     const searchInput = document.querySelector('.search-bar input');
     const filterButton = getActiveFilterButton();
     const query = (searchInput?.value || '').trim().toLowerCase();
-    const activeFilter = filterButton?.textContent.trim().toLowerCase() || 'all';
+    const activeFilter = (filterButton?.dataset.category || getCategoryKeyFromLabel(filterButton?.textContent) || 'all').toLowerCase();
 
     getVisibleProductCards().forEach(card => {
         const title = card.querySelector('.product-info h4')?.textContent.toLowerCase() || '';
@@ -492,14 +508,7 @@ function applyProductFilters() {
         const category = (card.dataset.category || '').toLowerCase();
 
         const matchesQuery = !query || title.includes(query) || weight.includes(query) || category.includes(query);
-        const matchesFilter = activeFilter === 'all'
-            || activeFilter.includes('fertilizer') && category === 'fertilizers'
-            || activeFilter.includes('seed') && category === 'seeds'
-            || activeFilter.includes('tool') && category === 'tools'
-            || activeFilter.includes('crop') && category === 'crop-protection'
-            || activeFilter.includes('soil') && category === 'soil-care'
-            || activeFilter.includes('irrigation') && category === 'irrigation'
-            || activeFilter.includes('sapling') && category === 'saplings';
+        const matchesFilter = activeFilter === 'all' || category === activeFilter;
 
         card.style.display = matchesQuery && matchesFilter ? '' : 'none';
     });
@@ -740,10 +749,14 @@ document.addEventListener('click', function(e) {
     if (e.target.closest('.category-card')) {
         const categoryCard = e.target.closest('.category-card');
         const categoryKey = categoryCard.dataset.category || 'all';
-        const filterLabel = getCategoryLabel(categoryKey);
         const matchingProduct = findProductByCategory(categoryKey);
 
-        setActiveProductFilter(filterLabel);
+        if (!matchingProduct) {
+            alert(`No product found for ${getCategoryLabel(categoryKey)} yet.`);
+            return;
+        }
+
+        setActiveProductFilter(categoryKey);
         renderProductPage(matchingProduct);
         showPage('productPage');
         return;
@@ -751,8 +764,9 @@ document.addEventListener('click', function(e) {
 
     if (e.target.closest('.product-card') && e.target.closest('#homeProductsGrid') && !e.target.closest('.btn-add') && !e.target.closest('.qty-btn')) {
         const productCard = e.target.closest('.product-card');
+        const productIndex = Number(productCard.dataset.productIndex);
         const productTitle = productCard.dataset.productTitle || '';
-        const product = findProductByTitle(productTitle);
+        const product = Number.isInteger(productIndex) ? findProductByIndex(productIndex) : findProductByTitle(productTitle);
 
         renderProductPage(product);
         showPage('productPage');
@@ -769,7 +783,8 @@ document.addEventListener('click', function(e) {
             e.target.classList.add('active');
 
             if (filterGroup.classList.contains('product-filters')) {
-                localStorage.setItem(productFilterKey, e.target.textContent.trim());
+                const categoryKey = e.target.dataset.category || getCategoryKeyFromLabel(e.target.textContent);
+                localStorage.setItem(productFilterKey, categoryKey);
                 applyProductFilters();
             }
         }
@@ -1046,7 +1061,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const savedFilter = localStorage.getItem(productFilterKey);
     if (savedFilter) {
-        const button = Array.from(document.querySelectorAll('.product-filters .filter-btn')).find(btn => btn.textContent.trim() === savedFilter);
+        const button = Array.from(document.querySelectorAll('.product-filters .filter-btn')).find(btn => {
+            const categoryKey = (btn.dataset.category || getCategoryKeyFromLabel(btn.textContent)).toLowerCase();
+            return categoryKey === savedFilter.toLowerCase();
+        });
         if (button) {
             button.click();
         }

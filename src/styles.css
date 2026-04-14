@@ -1805,6 +1805,13 @@ section {
     margin-bottom: 15px;
 }
 
+.product-category {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--primary-green);
+    margin-bottom: 16px;
+}
+
 .product-meta {
     margin-bottom: 20px;
 }
