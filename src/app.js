@@ -12,7 +12,19 @@ const checkoutAddressKey = 'viridianCheckoutAddress';
 const checkoutDeliveryKey = 'viridianCheckoutDelivery';
 const productFilterKey = 'viridianProductFilter';
 const selectedProductKey = 'viridianSelectedProduct';
+const profileStateKey = 'viridianProfileState';
+const profileImageKey = 'viridianProfileImage';
 let onOrderSuccessClose = null;
+let profileSaveToastTimer = null;
+
+const defaultProfileState = {
+    profileUsername: 'Hot farmer',
+    profileName: 'Glen Laurence',
+    gender: 'male',
+    dobDay: '26',
+    dobMonth: '01',
+    dobYear: '2005',
+};
 
 const productCategoryLabels = {
     all: 'All',
@@ -392,6 +404,156 @@ function restoreCheckoutAddress() {
     if (deliveryInput) {
         deliveryInput.checked = true;
     }
+}
+
+function getSavedProfileState() {
+    try {
+        return JSON.parse(localStorage.getItem(profileStateKey) || 'null');
+    } catch {
+        return null;
+    }
+}
+
+function syncProfileHeaderFromForm() {
+    const profileNameInput = document.querySelector('#accountPage input[name="profileName"]');
+    const sidebarName = document.querySelector('#accountPage .account-sidebar .username');
+    if (sidebarName) {
+        sidebarName.textContent = (profileNameInput?.value || defaultProfileState.profileName).trim() || defaultProfileState.profileName;
+    }
+}
+
+function saveProfileState() {
+    const form = document.querySelector('#accountPage .profile-form');
+    if (!form) {
+        return;
+    }
+
+    const state = {
+        profileUsername: form.querySelector('[name="profileUsername"]')?.value || defaultProfileState.profileUsername,
+        profileName: form.querySelector('[name="profileName"]')?.value || defaultProfileState.profileName,
+        gender: form.querySelector('input[name="gender"]:checked')?.value || defaultProfileState.gender,
+        dobDay: form.querySelector('[name="dobDay"]')?.value || defaultProfileState.dobDay,
+        dobMonth: form.querySelector('[name="dobMonth"]')?.value || defaultProfileState.dobMonth,
+        dobYear: form.querySelector('[name="dobYear"]')?.value || defaultProfileState.dobYear,
+    };
+
+    localStorage.setItem(profileStateKey, JSON.stringify(state));
+    syncProfileHeaderFromForm();
+    scheduleProfileSaveToast();
+}
+
+function restoreProfileState() {
+    const form = document.querySelector('#accountPage .profile-form');
+    if (!form) {
+        return;
+    }
+
+    const saved = getSavedProfileState();
+    const state = { ...defaultProfileState, ...(saved || {}) };
+
+    const setValue = (name, value) => {
+        const input = form.querySelector(`[name="${name}"]`);
+        if (input) {
+            input.value = value;
+        }
+    };
+
+    setValue('profileUsername', state.profileUsername);
+    setValue('profileName', state.profileName);
+    setValue('dobDay', state.dobDay);
+    setValue('dobMonth', state.dobMonth);
+    setValue('dobYear', state.dobYear);
+
+    const genderInput = form.querySelector(`input[name="gender"][value="${state.gender}"]`);
+    if (genderInput) {
+        genderInput.checked = true;
+    }
+
+    syncProfileHeaderFromForm();
+}
+
+function setProfileImage(src) {
+    if (!src) {
+        return;
+    }
+
+    const avatarTargets = [
+        document.querySelector('#accountPage .profile-avatar'),
+        document.querySelector('#accountPage .avatar-preview'),
+    ];
+
+    avatarTargets.forEach((target) => {
+        if (!target) {
+            return;
+        }
+
+        target.innerHTML = `<img src="${src}" alt="Profile image">`;
+    });
+}
+
+function restoreProfileImage() {
+    const savedImage = localStorage.getItem(profileImageKey);
+    if (savedImage) {
+        setProfileImage(savedImage);
+    }
+}
+
+function bindProfileImageUpload() {
+    const fileInput = document.getElementById('profileImageInput');
+    const selectImageButton = document.querySelector('#accountPage .btn-select-image');
+    if (!fileInput || !selectImageButton) {
+        return;
+    }
+
+    selectImageButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files?.[0];
+        if (!file) {
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            const imageData = typeof reader.result === 'string' ? reader.result : '';
+            if (!imageData) {
+                return;
+            }
+
+            setProfileImage(imageData);
+            localStorage.setItem(profileImageKey, imageData);
+            scheduleProfileSaveToast();
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+function showProfileSaveToast() {
+    const toast = document.getElementById('profileSaveToast');
+    if (!toast) {
+        return;
+    }
+
+    toast.classList.add('active');
+    toast.setAttribute('aria-hidden', 'false');
+
+    window.setTimeout(() => {
+        toast.classList.remove('active');
+        toast.setAttribute('aria-hidden', 'true');
+    }, 1500);
+}
+
+function scheduleProfileSaveToast() {
+    if (profileSaveToastTimer) {
+        window.clearTimeout(profileSaveToastTimer);
+    }
+
+    profileSaveToastTimer = window.setTimeout(() => {
+        showProfileSaveToast();
+    }, 450);
 }
 
 function getSelectedDeliveryCost() {
@@ -1151,6 +1313,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Restore cart and checkout state
     restoreCartState();
     restoreCheckoutAddress();
+    restoreProfileState();
+    restoreProfileImage();
+
+    const profileForm = document.querySelector('#accountPage .profile-form');
+    if (profileForm) {
+        profileForm.addEventListener('input', saveProfileState);
+        profileForm.addEventListener('change', saveProfileState);
+    }
+
+    bindProfileImageUpload();
 
     // Wire search and checkout persistence
     const searchInput = document.querySelector('.search-bar input');

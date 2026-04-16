@@ -712,7 +712,7 @@
                                 <circle cx="12" cy="7" r="4"/>
                             </svg>
                         </div>
-                        <h3 class="username">John Farmer</h3>
+                        <h3 class="username">Glen Laurence</h3>
                         <a href="#" class="edit-profile">Edit Profile</a>
                     </aside>
 
@@ -728,11 +728,11 @@
                                 <div class="form-row">
                                     <div class="form-field">
                                         <label>Username</label>
-                                        <input type="text" value="johnfarmer">
+                                        <input type="text" name="profileUsername" value="Hot farmer">
                                     </div>
                                     <div class="form-field">
                                         <label>Name</label>
-                                        <input type="text" value="John Farmer">
+                                        <input type="text" name="profileName" value="Glen Laurence">
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -753,7 +753,7 @@
                                         <label>Gender</label>
                                         <div class="radio-group">
                                             <label class="radio-option">
-                                                <input type="radio" name="gender" value="male">
+                                                <input type="radio" name="gender" value="male" checked>
                                                 <span>Male</span>
                                             </label>
                                             <label class="radio-option">
@@ -769,9 +769,9 @@
                                     <div class="form-field">
                                         <label>Date of Birth</label>
                                         <div class="date-inputs">
-                                            <input type="text" placeholder="DD" maxlength="2">
-                                            <input type="text" placeholder="MM" maxlength="2">
-                                            <input type="text" placeholder="YYYY" maxlength="4">
+                                            <input type="text" name="dobDay" placeholder="DD" maxlength="2" value="26">
+                                            <input type="text" name="dobMonth" placeholder="MM" maxlength="2" value="01">
+                                            <input type="text" name="dobYear" placeholder="YYYY" maxlength="4" value="2005">
                                         </div>
                                     </div>
                                 </div>
@@ -784,6 +784,7 @@
                                         <circle cx="12" cy="7" r="4"/>
                                     </svg>
                                 </div>
+                                <input type="file" id="profileImageInput" accept="image/*" hidden>
                                 <button class="btn-select-image">Select Image</button>
                             </div>
                         </div>
@@ -1120,6 +1121,10 @@
             <p>Your order was placed successfully. We saved your delivery details and order summary.</p>
             <button type="button" class="order-popup-btn" id="orderSuccessOkBtn">OK</button>
         </div>
+    </div>
+
+    <div class="save-toast" id="profileSaveToast" role="status" aria-live="polite" aria-hidden="true">
+        Profile saved
     </div>
 
     <script src="src/app.js"></script>
