@@ -942,7 +942,7 @@ section {
     transform: scale(1.1);
 }
 
-.product-actions {
+.product-card .product-actions {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -1936,9 +1936,14 @@ section {
     color: var(--text-light);
 }
 
-.product-actions {
+.product-details .product-actions {
     display: flex;
     gap: 15px;
+    position: static;
+    background: transparent;
+    padding: 0;
+    opacity: 1;
+    transform: none;
 }
 
 .btn-add-to-cart,
@@ -2644,7 +2649,7 @@ section {
         min-height: 2.4em;
     }
 
-    .product-actions {
+    .product-card .product-actions {
         opacity: 1;
         transform: translateY(0);
         padding: 10px;

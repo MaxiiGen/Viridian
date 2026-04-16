@@ -275,10 +275,14 @@ function updateCartSummary() {
 
 function restoreCartState() {
     const savedState = loadCartState();
+    const restoredTitles = new Set();
 
     getCartRows().forEach(row => {
         const title = row.querySelector('.item-details h4')?.textContent.trim() || '';
         const savedItem = savedState.get(title);
+        if (title) {
+            restoredTitles.add(title);
+        }
         if (!savedItem) {
             return;
         }
@@ -291,6 +295,21 @@ function restoreCartState() {
         if (checkbox) {
             checkbox.checked = Boolean(savedItem.checked);
         }
+    });
+
+    // Recreate items that were added dynamically and are not part of the static markup.
+    savedState.forEach((item, title) => {
+        if (!title || restoredTitles.has(title) || findCartRowByTitle(title)) {
+            return;
+        }
+
+        appendCartItem({
+            title,
+            price: item.price,
+            qty: item.qty,
+            checked: item.checked,
+            image: item.image,
+        });
     });
 
     const selectAll = document.querySelector('#cartPage .select-all input');
