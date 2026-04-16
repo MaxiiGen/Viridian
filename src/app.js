@@ -524,6 +524,25 @@ function incrementCartItem(title, amount = 1, fallbackProduct = null) {
     return true;
 }
 
+function selectOnlyCartItem(title) {
+    const normalizedTitle = String(title || '').trim();
+    getCartRows().forEach(row => {
+        const checkbox = row.querySelector('.item-checkbox input');
+        const rowTitle = row.querySelector('.item-details h4')?.textContent.trim() || '';
+        if (checkbox) {
+            checkbox.checked = rowTitle === normalizedTitle;
+        }
+    });
+
+    const selectAll = document.querySelector('#cartPage .select-all input');
+    if (selectAll) {
+        selectAll.checked = false;
+    }
+
+    updateCartSummary();
+    saveCartState();
+}
+
 function applyProductFilters() {
     const searchInput = document.querySelector('.search-bar input');
     const filterButton = getActiveFilterButton();
@@ -862,8 +881,14 @@ document.addEventListener('click', function(e) {
         const productTitle = e.target.dataset.productTitle || document.querySelector('#productPage .product-title')?.textContent.trim() || '';
         const selectedProduct = getSelectedProductFromStorage();
         const fallbackProduct = selectedProduct?.title === productTitle ? selectedProduct : null;
-        incrementCartItem(productTitle, 1, fallbackProduct);
-        showPage('cartPage');
+        const added = incrementCartItem(productTitle, 1, fallbackProduct);
+        if (!added) {
+            alert('Could not proceed with Buy Now. Please try again.');
+            return;
+        }
+
+        selectOnlyCartItem(productTitle);
+        showPage('checkoutPage');
     }
 
     // Handle Place Order
