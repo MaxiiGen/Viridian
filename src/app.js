@@ -476,10 +476,19 @@ function appendCartItem(item) {
     return findCartRowByTitle(item.title);
 }
 
-function incrementCartItem(title, amount = 1) {
-    const row = findCartRowByTitle(title);
+function getSelectedProductFromStorage() {
+    try {
+        return JSON.parse(localStorage.getItem(selectedProductKey) || 'null');
+    } catch {
+        return null;
+    }
+}
+
+function incrementCartItem(title, amount = 1, fallbackProduct = null) {
+    const normalizedTitle = String(title || '').trim();
+    const row = findCartRowByTitle(normalizedTitle);
     if (!row) {
-        const product = findProductByTitle(title);
+        const product = fallbackProduct || findProductByTitle(normalizedTitle);
         if (!product) {
             return false;
         }
@@ -831,20 +840,29 @@ document.addEventListener('click', function(e) {
     if (e.target.classList.contains('btn-add-to-cart')) {
         const btn = e.target;
         const productTitle = btn.dataset.productTitle || document.querySelector('#productPage .product-title')?.textContent.trim() || '';
-        const added = incrementCartItem(productTitle, 1);
-        btn.textContent = added ? 'Added to Cart!' : 'Saved';
-        btn.style.background = '#2E7D32';
+        const selectedProduct = getSelectedProductFromStorage();
+        const fallbackProduct = selectedProduct?.title === productTitle ? selectedProduct : null;
+        const added = incrementCartItem(productTitle, 1, fallbackProduct);
+
+        btn.textContent = added ? 'Added to Cart!' : 'Unable to Add';
+        btn.classList.toggle('is-added', added);
         
         setTimeout(() => {
             btn.textContent = 'Add to Cart';
-            btn.style.background = '';
+            btn.classList.remove('is-added');
         }, 2000);
+
+        if (!added) {
+            alert('Could not add this item to cart. Please try again.');
+        }
     }
 
     // Handle Buy Now on product page
     if (e.target.classList.contains('btn-buy-now')) {
         const productTitle = e.target.dataset.productTitle || document.querySelector('#productPage .product-title')?.textContent.trim() || '';
-        incrementCartItem(productTitle, 1);
+        const selectedProduct = getSelectedProductFromStorage();
+        const fallbackProduct = selectedProduct?.title === productTitle ? selectedProduct : null;
+        incrementCartItem(productTitle, 1, fallbackProduct);
         showPage('cartPage');
     }
 

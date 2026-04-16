@@ -1966,6 +1966,12 @@ section {
     background: var(--primary-green-glow);
 }
 
+.btn-add-to-cart.is-added {
+    background: #2e7d32;
+    color: var(--white);
+    border-color: #2e7d32;
+}
+
 .btn-buy-now {
     background: var(--primary-green);
     color: var(--white);
