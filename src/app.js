@@ -35,21 +35,21 @@ const featuredCategories = [
 ];
 
 const featuredPromos = [
-    { title: 'Organic Fertilizers just for you', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=400&fit=crop', alt: 'Fertilizer' },
-    { title: 'Handy Tools that are just right!', image: 'https://images.unsplash.com/photo-1617576683096-00fc8eecb3af?w=400&h=400&fit=crop', alt: 'Tools' },
-    { title: 'Saplings that fit the season', image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=400&h=400&fit=crop', alt: 'Saplings' },
+    { title: 'Organic Fertilizers just for you', image: 'drive-download-20260412T065819Z-3-001/featured(fertilizers).png', alt: 'Fertilizer' },
+    { title: 'Handy Tools that are just right!', image: 'drive-download-20260412T065819Z-3-001/featured(gardening tools).png', alt: 'Tools' },
+    { title: 'Saplings that fit the season', image: 'drive-download-20260412T065819Z-3-001/featured(saplings).png', alt: 'Saplings' },
 ];
 
 const productCatalog = [
     { category: 'fertilizers', title: 'Organic Fertilizer', weight: '5kg bag', price: 67.69, image: 'drive-download-20260412T065819Z-3-001/organic fertilizer packaging design.jpg', alt: 'Organic Fertilizer' },
     { category: 'seeds', title: 'Vegetable Seeds Pack', weight: '500g', price: 45.00, image: 'drive-download-20260412T065819Z-3-001/featured(plant seeds).png', alt: 'Vegetable Seeds' },
-    { category: 'tools', title: 'Garden Tool Set', weight: '5 pieces', price: 350.00, image: 'drive-download-20260412T065819Z-3-001/featured(gardening tools).png', alt: 'Garden Tools' },
-    { category: 'crop-protection', title: 'Plant Spray Bottle', weight: '1L', price: 89.00, image: 'drive-download-20260412T065819Z-3-001/featured(agricultural spray).png', alt: 'Plant Spray' },
-    { category: 'saplings', title: 'Tomato Saplings', weight: 'Bundle of 10', price: 120.00, image: 'drive-download-20260412T065819Z-3-001/featured(saplings).png', alt: 'Saplings' },
+    { category: 'tools', title: 'Garden Tool Set', weight: '5 pieces', price: 350.00, image: 'drive-download-20260412T065819Z-3-001/close-up-gardening-accesories.jpg', alt: 'Garden Tools' },
+    { category: 'crop-protection', title: 'Plant Spray Bottle', weight: '1L', price: 89.00, image: 'drive-download-20260412T065819Z-3-001/Tractor spraying on the field, a Nature Photo by MangoMind.jpg', alt: 'Plant Spray' },
+    { category: 'saplings', title: 'Tomato Saplings', weight: 'Bundle of 10', price: 120.00, image: 'drive-download-20260412T065819Z-3-001/photorealistic-sustainable-garden-with-home-grown-plants.jpg', alt: 'Saplings' },
     { category: 'soil-care', title: 'Premium Soil Mix', weight: '10kg bag', price: 180.00, image: 'drive-download-20260412T065819Z-3-001/featured(gardening soils).png', alt: 'Soil Mix' },
-    { category: 'seeds', title: 'Herb Seeds Collection', weight: '6 varieties', price: 75.00, image: 'drive-download-20260412T065819Z-3-001/featured(plant seeds).png', alt: 'Herb Seeds' },
-    { category: 'tools', title: 'Pruning Shears', weight: 'Professional', price: 250.00, image: 'drive-download-20260412T065819Z-3-001/featured(gardening tools).png', alt: 'Pruning Shears' },
-    { category: 'irrigation', title: 'Drip Irrigation Kit', weight: '50m tubing', price: 450.00, image: 'drive-download-20260412T065819Z-3-001/featured(aeroponic towers).png', alt: 'Drip Irrigation' },
+    { category: 'seeds', title: 'Herb Seeds Collection', weight: '6 varieties', price: 75.00, image: 'drive-download-20260412T065819Z-3-001/download (1).jpg', alt: 'Herb Seeds' },
+    { category: 'tools', title: 'Pruning Shears', weight: 'Professional', price: 250.00, image: 'drive-download-20260412T065819Z-3-001/Agriculture farming, gardening tools.jpg', alt: 'Pruning Shears' },
+    { category: 'irrigation', title: 'Drip Irrigation Kit', weight: '50m tubing', price: 450.00, image: 'drive-download-20260412T065819Z-3-001/aero tow3r.jpg', alt: 'Drip Irrigation' },
 ];
 
 function getCategoryLabel(categoryKey) {
@@ -536,6 +536,7 @@ function showPage(pageId, options = {}) {
     const pages = document.querySelectorAll('.page');
     const mainWrapper = document.getElementById('mainWrapper');
     const footer = document.getElementById('mainFooter');
+    const mainPageIds = ['homePage', 'aboutPage', 'iotServicesPage', 'contactPage', 'cartPage', 'checkoutPage', 'accountPage', 'productPage'];
 
     // Don't transition if already on the same page
     if (currentPage === pageId && !pageId.includes('login') && !pageId.includes('register')) {
@@ -571,7 +572,7 @@ function showPage(pageId, options = {}) {
         });
 
         // Show main wrapper for main pages
-        if (pageId === 'homePage' || pageId === 'cartPage' || pageId === 'checkoutPage' || pageId === 'accountPage' || pageId === 'productPage') {
+        if (mainPageIds.includes(pageId)) {
             mainWrapper.classList.remove('hidden');
             footer.style.display = 'block';
             
@@ -622,10 +623,7 @@ function showPage(pageId, options = {}) {
 function updateNavActiveState(pageId) {
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.textContent.toLowerCase() === 'home' && pageId === 'homePage') {
-            link.classList.add('active');
-        }
+        link.classList.toggle('active', link.dataset.page === pageId);
     });
 }
 

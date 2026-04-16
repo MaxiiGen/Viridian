@@ -162,10 +162,10 @@
                     </a>
                 </div>
                 <nav class="main-nav">
-                    <a href="#" class="nav-link active" onclick="showPage('homePage'); return false;">Home</a>
-                    <a href="#" class="nav-link" onclick="showPage('homePage'); return false;">About Us</a>
-                    <a href="#" class="nav-link" onclick="showPage('homePage'); return false;">IoT Services</a>
-                    <a href="#" class="nav-link" onclick="showPage('homePage'); return false;">Contact Us</a>
+                    <a href="#" class="nav-link active" data-page="homePage" onclick="showPage('homePage'); return false;">Home</a>
+                    <a href="#" class="nav-link" data-page="aboutPage" onclick="showPage('aboutPage'); return false;">About Us</a>
+                    <a href="#" class="nav-link" data-page="iotServicesPage" onclick="showPage('iotServicesPage'); return false;">IoT Services</a>
+                    <a href="#" class="nav-link" data-page="contactPage" onclick="showPage('contactPage'); return false;">Contact Us</a>
                 </nav>
                 <div class="header-right">
                     <div class="search-bar">
@@ -243,6 +243,85 @@
                 </div>
                 <div class="products-grid" id="homeProductsGrid"></div>
             </section>
+        </div>
+
+        <!-- ==================== ABOUT PAGE ==================== -->
+        <div class="page info-page" id="aboutPage">
+            <div class="info-container">
+                <section class="info-hero-card">
+                    <h1>About Viridian</h1>
+                    <p>Viridian helps farmers and growers access reliable agricultural supplies while making sustainable practices easier to adopt in everyday operations.</p>
+                </section>
+
+                <section class="info-grid">
+                    <article class="info-card">
+                        <h3>Our Mission</h3>
+                        <p>Build a practical, trusted marketplace where quality farm inputs are accessible, transparent, and backed by useful guidance.</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>Our Vision</h3>
+                        <p>Empower local agriculture through technology, responsible sourcing, and stronger connections between growers and suppliers.</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>What We Value</h3>
+                        <ul>
+                            <li>Product quality and authenticity</li>
+                            <li>Farmer-first support and education</li>
+                            <li>Sustainable and climate-aware farming</li>
+                        </ul>
+                    </article>
+                </section>
+            </div>
+        </div>
+
+        <!-- ==================== IOT SERVICES PAGE ==================== -->
+        <div class="page info-page" id="iotServicesPage">
+            <div class="info-container">
+                <section class="info-hero-card">
+                    <h1>IoT Services</h1>
+                    <p>Monitor your farm with connected tools that help you track moisture, irrigation, and crop conditions in real time.</p>
+                </section>
+
+                <section class="info-grid">
+                    <article class="info-card">
+                        <h3>Smart Irrigation</h3>
+                        <p>Automate watering schedules based on sensor readings to avoid overwatering and reduce wastage.</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>Crop Monitoring</h3>
+                        <p>Get visibility into field status with regular device updates that help you respond faster to issues.</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>Usage Analytics</h3>
+                        <p>Review historical trends and optimize your setup with data-backed insights over time.</p>
+                    </article>
+                </section>
+            </div>
+        </div>
+
+        <!-- ==================== CONTACT PAGE ==================== -->
+        <div class="page info-page" id="contactPage">
+            <div class="info-container">
+                <section class="info-hero-card">
+                    <h1>Contact Us</h1>
+                    <p>Have questions about products, delivery, or partnerships? Reach our team through the channels below.</p>
+                </section>
+
+                <section class="info-grid contact-grid">
+                    <article class="info-card">
+                        <h3>Customer Support</h3>
+                        <p>Email: support@viridian.com</p>
+                        <p>Phone: +63 912 345 6789</p>
+                        <p>Hours: Mon-Sat, 8:00 AM - 6:00 PM</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>Business Inquiries</h3>
+                        <p>Email: partner@viridian.com</p>
+                        <p>Location: Kabacan, Philippines</p>
+                        <p>For dealership, bulk orders, and collaborations.</p>
+                    </article>
+                </section>
+            </div>
         </div>
 
         <!-- ==================== CART PAGE ==================== -->
