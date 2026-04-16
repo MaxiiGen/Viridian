@@ -621,11 +621,52 @@ function buildCartItemMarkup(item) {
                 <p>${formatPeso(total)}</p>
             </div>
             <div class="item-actions">
-                <a href="#">Delete</a>
+                <button type="button" class="remove-product-btn">Remove</button>
                 <a href="#">Find Similar</a>
             </div>
         </div>
     `;
+}
+
+function normalizeCartActionButtons() {
+    document.querySelectorAll('#cartPage .item-actions a').forEach(link => {
+        if (link.textContent.trim().toLowerCase() !== 'delete') {
+            return;
+        }
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'remove-product-btn';
+        button.textContent = 'Remove';
+        link.replaceWith(button);
+    });
+}
+
+function removeCartItemRow(row) {
+    if (!row) {
+        return;
+    }
+
+    const shopGroup = row.closest('.shop-group');
+    row.remove();
+
+    if (shopGroup) {
+        const shopCheckbox = shopGroup.querySelector('.shop-checkbox input');
+        const itemCheckboxes = shopGroup.querySelectorAll('.item-checkbox input');
+        if (shopCheckbox) {
+            shopCheckbox.checked = itemCheckboxes.length > 0 && Array.from(itemCheckboxes).every(cb => cb.checked);
+        }
+    }
+
+    const selectAll = document.querySelector('#cartPage .select-all input');
+    if (selectAll) {
+        const rows = getCartRows();
+        selectAll.checked = rows.length > 0 && rows.every(item => item.querySelector('.item-checkbox input')?.checked);
+    }
+
+    updateCartRowTotals();
+    updateCartSummary();
+    saveCartState();
 }
 
 function appendCartItem(item) {
@@ -1114,6 +1155,12 @@ document.addEventListener('click', function(e) {
         return;
     }
 
+    if (e.target.closest('.remove-product-btn')) {
+        const cartRow = e.target.closest('.cart-item');
+        removeCartItemRow(cartRow);
+        return;
+    }
+
     if (e.target.closest('.btn-logout')) {
         logoutUser();
         return;
@@ -1324,6 +1371,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Restore cart and checkout state
     restoreCartState();
+    normalizeCartActionButtons();
     restoreCheckoutAddress();
     restoreProfileState();
     restoreProfileImage();

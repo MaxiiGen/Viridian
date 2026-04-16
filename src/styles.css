@@ -1318,6 +1318,19 @@ section {
     color: var(--primary-green);
 }
 
+.remove-product-btn {
+    padding: 0;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #c62828;
+    background: transparent;
+    text-align: left;
+}
+
+.remove-product-btn:hover {
+    color: #8e0000;
+}
+
 .cart-summary {
     background: var(--white);
     border-radius: var(--radius-lg);
