@@ -12,6 +12,7 @@ const checkoutAddressKey = 'viridianCheckoutAddress';
 const checkoutDeliveryKey = 'viridianCheckoutDelivery';
 const productFilterKey = 'viridianProductFilter';
 const selectedProductKey = 'viridianSelectedProduct';
+let onOrderSuccessClose = null;
 
 const productCategoryLabels = {
     all: 'All',
@@ -736,8 +737,39 @@ function handlePlaceOrder(event) {
     };
 
     localStorage.setItem('viridianLatestOrder', JSON.stringify(order));
-    alert('Order placed. Your address and order summary were saved.');
-    showPage('homePage');
+    showOrderSuccessPopup(() => {
+        showPage('homePage');
+    });
+}
+
+function showOrderSuccessPopup(onClose) {
+    const popup = document.getElementById('orderSuccessPopup');
+    if (!popup) {
+        if (typeof onClose === 'function') {
+            onClose();
+        }
+        return;
+    }
+
+    onOrderSuccessClose = typeof onClose === 'function' ? onClose : null;
+    popup.classList.add('active');
+    popup.setAttribute('aria-hidden', 'false');
+}
+
+function closeOrderSuccessPopup() {
+    const popup = document.getElementById('orderSuccessPopup');
+    if (!popup) {
+        return;
+    }
+
+    popup.classList.remove('active');
+    popup.setAttribute('aria-hidden', 'true');
+
+    const callback = onOrderSuccessClose;
+    onOrderSuccessClose = null;
+    if (typeof callback === 'function') {
+        callback();
+    }
 }
 
 // ==================== QUANTITY SELECTOR ====================
@@ -1139,6 +1171,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     } else {
         renderProductPage(productCatalog[0]);
+    }
+
+    const orderPopup = document.getElementById('orderSuccessPopup');
+    const orderPopupOkBtn = document.getElementById('orderSuccessOkBtn');
+    if (orderPopup && !orderPopup.dataset.bound) {
+        orderPopupOkBtn?.addEventListener('click', closeOrderSuccessPopup);
+        orderPopup.addEventListener('click', (event) => {
+            if (event.target === orderPopup) {
+                closeOrderSuccessPopup();
+            }
+        });
+        orderPopup.dataset.bound = 'true';
     }
 });
 
