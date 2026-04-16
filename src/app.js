@@ -500,12 +500,12 @@ function restoreProfileImage() {
 
 function bindProfileImageUpload() {
     const fileInput = document.getElementById('profileImageInput');
-    const selectImageButton = document.querySelector('#accountPage .btn-select-image');
-    if (!fileInput || !selectImageButton) {
+    const editProfileButton = document.querySelector('#accountPage .edit-profile');
+    if (!fileInput || !editProfileButton) {
         return;
     }
 
-    selectImageButton.addEventListener('click', (event) => {
+    editProfileButton.addEventListener('click', (event) => {
         event.preventDefault();
         fileInput.click();
     });
@@ -837,6 +837,12 @@ function updateNavActiveState(pageId) {
     });
 }
 
+function logoutUser() {
+    isLoggedIn = false;
+    localStorage.setItem(authStateKey, 'false');
+    showPage('loginPage');
+}
+
 // ==================== AUTH HANDLERS ====================
 function handleLogin(event) {
     event.preventDefault();
@@ -1105,6 +1111,12 @@ document.addEventListener('click', function(e) {
     // Handle Place Order
     if (e.target.classList.contains('place-order-btn')) {
         handlePlaceOrder(e);
+        return;
+    }
+
+    if (e.target.closest('.btn-logout')) {
+        logoutUser();
+        return;
     }
 });
 
@@ -1385,9 +1397,7 @@ document.addEventListener('keydown', (e) => {
             return;
         }
 
-        isLoggedIn = false;
-        localStorage.setItem(authStateKey, 'false');
-        showPage('loginPage');
+        logoutUser();
     }
 });
 

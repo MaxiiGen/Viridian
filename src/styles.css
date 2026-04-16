@@ -1735,6 +1735,20 @@ section {
     text-decoration: underline;
 }
 
+.btn-logout {
+    margin-top: 18px;
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    background: #fbe9e9;
+    color: #b71c1c;
+    font-weight: 600;
+}
+
+.btn-logout:hover {
+    background: #f7d6d6;
+}
+
 .account-content {
     flex: 1;
 }
