@@ -743,17 +743,34 @@ function handlePlaceOrder(event) {
 }
 
 function showOrderSuccessPopup(onClose) {
-    const popup = document.getElementById('orderSuccessPopup');
+    let popup = document.getElementById('orderSuccessPopup');
     if (!popup) {
-        if (typeof onClose === 'function') {
-            onClose();
-        }
-        return;
+        document.body.insertAdjacentHTML('beforeend', `
+            <div class="order-popup-overlay" id="orderSuccessPopup" aria-hidden="true">
+                <div class="order-popup" role="dialog" aria-modal="true" aria-labelledby="orderSuccessTitle">
+                    <h3 id="orderSuccessTitle">Order Placed</h3>
+                    <p>Your order was placed successfully. We saved your delivery details and order summary.</p>
+                    <button type="button" class="order-popup-btn" id="orderSuccessOkBtn">OK</button>
+                </div>
+            </div>
+        `);
+        popup = document.getElementById('orderSuccessPopup');
     }
 
     onOrderSuccessClose = typeof onClose === 'function' ? onClose : null;
     popup.classList.add('active');
     popup.setAttribute('aria-hidden', 'false');
+
+    const popupOkButton = popup.querySelector('#orderSuccessOkBtn');
+    if (!popup.dataset.bound) {
+        popupOkButton?.addEventListener('click', closeOrderSuccessPopup);
+        popup.addEventListener('click', (event) => {
+            if (event.target === popup) {
+                closeOrderSuccessPopup();
+            }
+        });
+        popup.dataset.bound = 'true';
+    }
 }
 
 function closeOrderSuccessPopup() {
@@ -1190,6 +1207,12 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('keydown', (e) => {
     // ESC to go back to login
     if (e.key === 'Escape' && isLoggedIn) {
+        const orderPopup = document.getElementById('orderSuccessPopup');
+        if (orderPopup?.classList.contains('active')) {
+            closeOrderSuccessPopup();
+            return;
+        }
+
         isLoggedIn = false;
         localStorage.setItem(authStateKey, 'false');
         showPage('loginPage');
