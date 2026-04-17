@@ -1328,7 +1328,7 @@ section {
 }
 
 .about-team-card:nth-child(2) .about-team-avatar img {
-    object-position: center 25%;
+    object-position: center 18%;
 }
 
 .about-team-card:nth-child(3) .about-team-avatar img {
@@ -1341,8 +1341,8 @@ section {
 }
 
 .about-team-card:nth-child(5) .about-team-avatar img {
-    object-position: center 28%;
-    transform: scale(1.12);
+    object-position: center 24%;
+    transform: scale(1.24);
 }
 
 .about-team-card:nth-child(6) .about-team-avatar img {
