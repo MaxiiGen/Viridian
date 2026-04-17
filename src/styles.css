@@ -1251,12 +1251,7 @@ section {
     position: relative;
     overflow: hidden;
     box-shadow: 0 10px 20px rgba(46, 35, 7, 0.24);
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.about-team-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 28px rgba(46, 35, 7, 0.28);
+    border: 2px solid rgba(255, 233, 179, 0.22);
 }
 
 .about-team-card::before {
@@ -1303,6 +1298,7 @@ section {
     box-sizing: border-box;
     flex-shrink: 0;
     isolation: isolate;
+    position: relative;
     color: #0e2d22;
     font-weight: 700;
     font-size: clamp(1.05rem, 1.8vw, 1.6rem);
@@ -1311,12 +1307,7 @@ section {
 }
 
 .about-team-avatar::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.42);
-    pointer-events: none;
+    display: none;
 }
 
 .about-team-avatar img {
