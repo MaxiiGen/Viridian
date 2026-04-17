@@ -1188,6 +1188,97 @@ section {
     margin-top: 6px;
 }
 
+.about-team-section {
+    background: #056b3d;
+    border: 12px solid #c89a3e;
+    border-radius: var(--radius-xl);
+    padding: 32px;
+    box-shadow: var(--shadow-md);
+}
+
+.about-team-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.about-team-header h2 {
+    font-size: clamp(2rem, 4vw, 4.4rem);
+    line-height: 1;
+    color: #f1f5ef;
+    letter-spacing: -0.03em;
+}
+
+.about-team-logo {
+    width: clamp(70px, 8vw, 110px);
+    height: auto;
+    object-fit: contain;
+    opacity: 0.95;
+}
+
+.about-team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px 24px;
+}
+
+.about-team-card {
+    background: #c89a3e;
+    min-height: 116px;
+    border-radius: 999px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 10px 12px 10px 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-team-card::before {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    background: #f8f9fa;
+    border-radius: 999px;
+}
+
+.about-team-meta h3 {
+    color: #ffffff;
+    font-size: clamp(1.15rem, 1.9vw, 2rem);
+    line-height: 0.95;
+    margin-bottom: 8px;
+    max-width: 14ch;
+}
+
+.about-team-meta p {
+    color: #fff4de;
+    font-size: clamp(0.95rem, 1.2vw, 1.45rem);
+    line-height: 1.05;
+    margin: 0;
+    max-width: 18ch;
+}
+
+.about-team-avatar {
+    width: clamp(86px, 7.5vw, 132px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 6px solid #d3a54b;
+    background: linear-gradient(135deg, #ecf4f5 0%, #d3d8dc 100%);
+    display: grid;
+    place-items: center;
+    color: #0e2d22;
+    font-weight: 700;
+    font-size: clamp(1.05rem, 1.8vw, 1.6rem);
+    letter-spacing: 0.03em;
+    box-shadow: 0 6px 16px rgba(5, 17, 13, 0.2);
+}
+
 /* ==================== CART PAGE ==================== */
 .cart-page {
     padding: 40px 80px;
@@ -2737,6 +2828,14 @@ section {
     .contact-grid {
         grid-template-columns: 1fr;
     }
+
+    .about-team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-team-card {
+        min-height: 106px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -2831,6 +2930,28 @@ section {
 
     .info-hero-card h1 {
         font-size: 1.6rem;
+    }
+
+    .about-team-section {
+        border-width: 8px;
+        padding: 20px 14px;
+    }
+
+    .about-team-card {
+        border-radius: 24px;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        justify-items: start;
+        padding: 16px;
+    }
+
+    .about-team-card::before {
+        display: none;
+    }
+
+    .about-team-avatar {
+        width: 78px;
+        border-width: 4px;
     }
 
     .hero-content h1 {
